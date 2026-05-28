@@ -1,6 +1,6 @@
 // server/api/trigger/[type].post.ts
 
-const ALLOWED_TYPES = ['bills', 'bylaws', 'committee-reports'] as const
+const ALLOWED_TYPES = ['bills', 'bylaws', 'committee-reports', 'representatives'] as const
 type TriggerType = (typeof ALLOWED_TYPES)[number]
 
 export default defineEventHandler(async (event) => {

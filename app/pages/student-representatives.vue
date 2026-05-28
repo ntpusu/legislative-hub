@@ -1,6 +1,47 @@
 <!-- app/pages/student-representatives.vue -->
 <template>
   <main>
+    <header>
+      <hgroup>
+        <h1>同步學生代表名冊</h1>
+        <p>
+          最近一次同步時間：{{
+            data?.lastUpdated ? formatDate(data.lastUpdated) : '載入中...'
+          }}
+        </p>
+      </hgroup>
+    </header>
+
+    <article>
+      <h3 style="font-size: 1.5rem">手動同步</h3>
+      <p>
+        系統每天早上6點會從 Google Sheets 同步到 LegiHub (這裡)
+        一次。如果您剛更新試算表、需要立即對外展示，也可點選下方按鈕，手動同步。
+      </p>
+      <button
+        :disabled="status === 'loading'"
+        :aria-busy="status === 'loading'"
+        @click="trigger"
+      >
+        {{ status === 'loading' ? '同步中…' : '立即同步' }}
+      </button>
+      <p v-if="status === 'success'">
+        ✅ 已成功觸發，工作流正在執行中（成功觸發不代表 workflow
+        已執行完畢，甚至未必執行成功，執行情形請到
+        <a
+          :href="`https://github.com/${repo}/actions/workflows/${workflowNameReps}`"
+          target="_blank"
+          >GitHub Actions</a
+        >
+        頁面查看）。
+      </p>
+      <p v-if="status === 'error'">
+        ❌ 執行工作流發生錯誤，請將下列訊息回報給會網維護小組：<br />{{
+          errorMsg
+        }}
+      </p>
+    </article>
+
     <section style="margin-top: 3em">
       <hgroup>
         <h3>預覽學生代表名冊</h3>
@@ -112,8 +153,26 @@ useHead({
   ]
 })
 
+const config = useRuntimeConfig()
+const { repo, workflowNameReps } = config.public.legiDataSource
+
 const { data, loading, error, fetchData, getMeetingsWithReps } =
   useStudentRepresentatives()
+
+const status = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const errorMsg = ref('')
+
+async function trigger() {
+  status.value = 'loading'
+  errorMsg.value = ''
+  try {
+    await $fetch('/api/trigger/representatives', { method: 'POST' })
+    status.value = 'success'
+  } catch (e: any) {
+    status.value = 'error'
+    errorMsg.value = e?.data?.message ?? '未知錯誤'
+  }
+}
 
 const showModal = ref(false)
 const selectedMeeting = ref<MeetingWithReps | null>(null)
