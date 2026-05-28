@@ -106,7 +106,7 @@ const toggleTheme = () => {
         </dialog>
 
         <!-- ── 手機版頂部 Header ───────────────────────────────── -->
-        <header class="mobile-header md:hidden container-fluid">
+        <header class="mobile-header container-fluid">
             <nav>
                 <ul>
                     <li>
@@ -232,7 +232,6 @@ const toggleTheme = () => {
     </div>
 </template>
 
-
 <!-- 非 scoped 好讓 Pico 樣式全域生效 -->
 <style>
 @import '@/assets/css/main.css';
@@ -278,8 +277,19 @@ const toggleTheme = () => {
     background: var(--pico-background-color);
 }
 
-/* 手機版 RWD 設定 */
-@media (max-width: 992px) {
+/* ── 手機版頂部 Header：螢幕寬度 ≥ 992px 時隱藏 ──── */
+.mobile-header {
+    display: block;
+}
+
+@media (min-width: 992px) {
+    .mobile-header {
+        display: none;
+    }
+}
+
+/* ── 側邊欄 RWD ─────────────────────────────────── */
+@media (max-width: 991.98px) {
     .sidebar {
         position: fixed;
         left: 0;
