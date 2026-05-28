@@ -1,4 +1,4 @@
-import { Gavel, FileText } from "lucide-vue-next";
+import { Gavel, FileText, Speech } from "lucide-vue-next";
 
 export const siteNavigation = [
   {
@@ -19,4 +19,12 @@ export const siteNavigation = [
       { name: "草擬會議紀錄", href: "/drafting/minutes" },
     ],
   },
+  {
+    name: "參與校務",
+    icon: Speech,
+    children: [
+      { name: "同步學代名冊", href: "/student-representatives" },
+      // { name: "學權儀表板", href: "/participating/agenda-for-rights" },
+    ],
+  }
 ];
