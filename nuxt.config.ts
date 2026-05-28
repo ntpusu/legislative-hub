@@ -69,6 +69,13 @@ export default defineNuxtConfig({
       },
     },
     githubToken: '', // 請在環境變數設定
+    oauth: {
+      google: {
+        clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET,
+        redirectUrl: process.env.NUXT_OAUTH_GOOGLE_REDIRECT_URL
+      }
+    }
     
   },
   
