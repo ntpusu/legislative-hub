@@ -224,6 +224,10 @@ const toggleTheme = () => {
                                 >{{ config.name }} -
                                 立法自動化．議事資訊化</span
                             >
+                            <br />
+                            <span class="text-xs opacity-70">
+                                <a :href="`${config.repoUrl}`" target="_blank">Open Source</a>
+                            </span>
                         </small>
                     </p>
                 </footer>
