@@ -1,12 +1,13 @@
 // app/middleware/auth.global.ts
 export default defineNuxtRouteMiddleware((to) => {
-  
   // 排除 API 路由與其他不需驗證的靜態路徑
   if (to.path.startsWith('/api/')) return
-  
+
   const { loggedIn, user } = useUserSession()
 
-  console.log(`[auth.global] path=${to.path}, loggedIn=${loggedIn.value}, server=${import.meta.server}`)
+  console.log(
+    `[auth.global] path=${to.path}, loggedIn=${loggedIn.value}, server=${import.meta.server}`
+  )
 
   // 1. 已登入的使用者試圖訪問 /login，導回首頁（或原本的 redirect 目標）
   if (to.path === '/login') {
@@ -39,15 +40,14 @@ export default defineNuxtRouteMiddleware((to) => {
   // 4. 特定路徑權限管控 (執行到此處，代表 loggedIn 必為 true)
   // ----------------------------------------------------------------
   if (to.path.startsWith('/drafting/')) {
-
     // 定義可以存取草擬系統的白名單
-    const draftingWhitelist = [
-      'ntpuscs@gmail.com',
-    ]
+    const draftingWhitelist = ['ntpuscs@gmail.com']
 
     // 檢查當前使用者的 email 是否存在於白名單中
     if (!user.value || !draftingWhitelist.includes(user.value.email)) {
-      console.warn(`[auth.global] 無權限訪問: ${user.value?.email} 嘗試進入 ${to.path}`)
+      console.warn(
+        `[auth.global] 無權限訪問: ${user.value?.email} 嘗試進入 ${to.path}`
+      )
 
       // 用 useState 設定一個全域 toast 訊息，讓 layout 顯示警告
       // key 需與 congress.vue 中的 useState 一致

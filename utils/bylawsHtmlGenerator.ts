@@ -4,9 +4,8 @@
 export function generateHtmlSource(reg: any): string {
   if (!reg) return ''
 
-  const abandonedSpan = reg.status === 'abandoned'
-    ? ' <span style="color: red;">(廢止)</span>'
-    : ''
+  const abandonedSpan =
+    reg.status === 'abandoned' ? ' <span style="color: red;">(廢止)</span>' : ''
 
   let historyItems = ''
   if (Array.isArray(reg.history)) {
@@ -35,7 +34,7 @@ ${historyItems}
 export async function copyHtmlSourceToClipboard(reg: any) {
   const htmlSource = generateHtmlSource(reg)
   if (!htmlSource) return
-  
+
   try {
     await navigator.clipboard.writeText(htmlSource)
     alert('已成功複製 HTML 原始碼到剪貼簿！')

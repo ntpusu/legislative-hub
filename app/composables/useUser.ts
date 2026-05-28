@@ -6,10 +6,10 @@
  */
 export interface User {
   id: string
-  name: string        // 顯示名稱 (e.g., 自治幹部A)
-  email: string       // Email (用來比對白名單)
-  department: string  // 單位 (e.g., 學生會行政中心)
-  avatar?: string     // 大頭貼 URL (選填)
+  name: string // 顯示名稱 (e.g., 自治幹部A)
+  email: string // Email (用來比對白名單)
+  department: string // 單位 (e.g., 學生會行政中心)
+  avatar?: string // 大頭貼 URL (選填)
   role: 'ADMIN' | 'STAFF' // 簡單的權限分級
 }
 
@@ -35,7 +35,7 @@ export const useAuth = () => {
   // 模擬登入動作
   const login = async () => {
     // 這裡模擬打 API 的延遲
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
     // 設定模擬的使用者資料
     user.value = {

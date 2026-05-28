@@ -1,7 +1,7 @@
 /* app\assets\css\main.css */
 
 /* 引入 Pico CSS */
-@import "@picocss/pico/css/pico.min.css";
+@import '@picocss/pico/css/pico.min.css';
 
 :root {
   --pico-primary: #0f2d4b;
@@ -11,7 +11,7 @@
 }
 
 /* 暗色模式適配：將 Congress Blue 稍微調亮以增加對比度 */
-[data-theme="dark"] {
+[data-theme='dark'] {
   --pico-primary: #3a79b8;
   --pico-primary-background: #3a79b8;
   --pico-primary-hover-background: #4a89c8;

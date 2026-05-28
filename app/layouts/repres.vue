@@ -23,24 +23,23 @@
         defer
       />
     </Head>
-    
+
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
 // 將變數命名為 colorModeBs5 以避免與全域 Tailwind 設定混淆
-const colorModeBs5 = useColorMode();
+const colorModeBs5 = useColorMode()
 </script>
 
 <style>
-
 .bootstrap-scope {
   /* 將 Bootstrap 樣式限制在 bootstrap-scope 內，確保 Bootstrap 樣式不會洩漏到其他頁面 */
   all: initial;
   display: block;
   min-height: 100vh;
-  
+
   background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
   font-family: var(--bs-body-font-family);
@@ -53,5 +52,4 @@ const colorModeBs5 = useColorMode();
 .bootstrap-scope * {
   box-sizing: border-box;
 }
-
 </style>

@@ -1,79 +1,83 @@
 /* For regulations */
 
 /* Chapters */
-div.zhangJie { 
-	font-weight: bold;
-	font-size: larger;
+div.zhangJie {
+  font-weight: bold;
+  font-size: larger;
 }
 p.law-division {
-	margin-left: 0em;
+  margin-left: 0em;
 }
 p.law-chapter {
-	margin-left: 1em;
+  margin-left: 1em;
 }
-p.law-section, p.law-hxiang {
-	margin-left: 2em;
+p.law-section,
+p.law-hxiang {
+  margin-left: 2em;
 }
 p.law-hsubsection {
-	margin-left: 4em;
+  margin-left: 4em;
 }
 p.law-hitem {
-	margin-left: 5em;
+  margin-left: 5em;
 }
 
 /* Single Articles */
 div.law-article {
-    counter-reset: num;
-	position: relative;
+  counter-reset: num;
+  position: relative;
 }
 
 p.law-art-num {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 p.xiang {
-	margin-left: 2em;
-	margin-top: 5px; margin-bottom: 5px;
+  margin-left: 2em;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 p.xiang:not(:only-of-type)::before {
-	counter-increment: num;
-	content: counter(num, upper-roman);
-	display: inline-block;
-	position: absolute;
-	left: -2em;
-	margin-left: -1em;
-	text-align: right;
-	width: 2em;
-	font-family: 'Times New Roman', serif;
-	color:#777;
+  counter-increment: num;
+  content: counter(num, upper-roman);
+  display: inline-block;
+  position: absolute;
+  left: -2em;
+  margin-left: -1em;
+  text-align: right;
+  width: 2em;
+  font-family: 'Times New Roman', serif;
+  color: #777;
 }
 
 p.kuan {
-	margin-left: 4em;
-	text-indent: -2em;
-	margin-top: 5px; margin-bottom: 5px;
+  margin-left: 4em;
+  text-indent: -2em;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 p.mu {
-	margin-left: 7em;
-	text-indent: -3em;
-	margin-top: 5px; margin-bottom: 5px;
+  margin-left: 7em;
+  text-indent: -3em;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 /* Print */
 @media print {
-	@page {
-		margin-top: 1.3cm;
-		margin-bottom: 1.5cm;
-		margin-left: 1.7cm;
-		margin-right: 1.7cm; 
-	    size: A4 portrait;
-	}
-	div.zhangJie{
-		page-break-after: avoid;
-	}
-	p.law-art-num{
-		page-break-after: avoid;
-	}
+  @page {
+    margin-top: 1.3cm;
+    margin-bottom: 1.5cm;
+    margin-left: 1.7cm;
+    margin-right: 1.7cm;
+    size: A4 portrait;
+  }
+  div.zhangJie {
+    page-break-after: avoid;
+  }
+  p.law-art-num {
+    page-break-after: avoid;
+  }
 }

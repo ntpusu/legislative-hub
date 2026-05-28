@@ -3,13 +3,13 @@ import { useRegulation } from '~/composables/useRegulation'
 
 // 1. 宣告介面 (Interface)，明確告訴 TypeScript 這包資料有哪些欄位
 interface RegulationData {
-  titleFull: string;
-  titleShort?: string;
-  status?: string;
-  modifiedType?: string;
-  modifiedDate?: string;
-  fullText: string;
-  history?: string[];
+  titleFull: string
+  titleShort?: string
+  status?: string
+  modifiedType?: string
+  modifiedDate?: string
+  fullText: string
+  history?: string[]
 }
 
 definePageMeta({
@@ -27,17 +27,14 @@ const { data: rawData, pending, error } = await useRegulation(id)
 const regulation = computed(() => rawData.value as RegulationData | null)
 
 useHead({
-  title: () => regulation.value 
-    ? `${regulation.value.titleShort}`
-    : '載入中...'
+  title: () =>
+    regulation.value ? `${regulation.value.titleShort}` : '載入中...'
 })
 </script>
 
 <template>
   <main>
-    <article v-if="pending" aria-busy="true">
-      載入中...
-    </article>
+    <article v-if="pending" aria-busy="true">載入中...</article>
 
     <article v-else-if="error">
       <header>
@@ -66,7 +63,11 @@ useHead({
         <details open>
           <summary>法規沿革</summary>
           <ol>
-            <li v-for="(item, index) in regulation.history" :key="index" v-html="item"></li>
+            <li
+              v-for="(item, index) in regulation.history"
+              :key="index"
+              v-html="item"
+            ></li>
           </ol>
         </details>
       </footer>

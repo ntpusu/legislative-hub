@@ -1,17 +1,16 @@
 export default defineEventHandler(async (event) => {
-  
   const config = useRuntimeConfig(event)
   const { repo, branch, listPath } = config.public.legiDataSource
-  
+
   try {
     const response = await fetch(
       `https://raw.githubusercontent.com/${repo}/refs/heads/${branch}/${listPath}`
     )
-    
+
     if (!response.ok) {
       throw new Error(`Failed to fetch bylaw list: ${response.statusText}`)
     }
-    
+
     const lawList = await response.json()
     return lawList
   } catch (error) {

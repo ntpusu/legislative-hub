@@ -1,5 +1,5 @@
 export default {
   corePlugins: {
-    preflight: false,
+    preflight: false
   }
 }
