@@ -47,15 +47,19 @@ export const useStudentRepresentatives = () => {
   const loading = ref(true);
   const error = ref<Error | null>(null);
 
+  const { repo, branch, repsDataPath } =
+    useRuntimeConfig().public.legiDataSource;
+  const repsUrl = `https://cdn.jsdelivr.net/gh/${repo}@${branch}/${repsDataPath}`;
+
   const fetchData = async () => {
     try {
       loading.value = true;
       error.value = null;
-      const response = await $fetch<StudentRepresentativesData>('/api/student-representatives');
+      const response = await $fetch<StudentRepresentativesData>(repsUrl);
       data.value = response;
     } catch (e) {
       error.value = e as Error;
-      console.error('Failed to fetch student representatives data:', e);
+      console.error("Failed to fetch student representatives data:", e);
     } finally {
       loading.value = false;
     }
@@ -64,12 +68,12 @@ export const useStudentRepresentatives = () => {
   const getMeetingsWithReps = computed((): MeetingWithReps[] => {
     if (!data.value) return [];
 
-    return data.value.meetings.map(meeting => {
-      const assignedReps = data.value!.assignments
-        .filter(a => a.meetingName === meeting.name)
-        .map(a => {
+    return data.value.meetings.map((meeting) => {
+      const assignedReps = data
+        .value!.assignments.filter((a) => a.meetingName === meeting.name)
+        .map((a) => {
           const rep = data.value!.representatives.find(
-            r => r.name === a.representativeName
+            (r) => r.name === a.representativeName,
           );
           return rep;
         })
@@ -77,7 +81,7 @@ export const useStudentRepresentatives = () => {
 
       return {
         ...meeting,
-        assignedReps
+        assignedReps,
       };
     });
   });
@@ -87,6 +91,6 @@ export const useStudentRepresentatives = () => {
     loading,
     error,
     fetchData,
-    getMeetingsWithReps
+    getMeetingsWithReps,
   };
 };
