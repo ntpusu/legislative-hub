@@ -1,9 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { defineNuxtConfig } from 'nuxt/config'
 
 import { siteConfig } from './config/site.config'
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-05-15',
+  compatibilityDate: '2026-06-01',
+  future: {
+      compatibilityVersion: 4,
+  },
   devtools: {
     enabled: process.env.NODE_ENV === 'development'
   },
