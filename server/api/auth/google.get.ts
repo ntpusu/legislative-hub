@@ -1,4 +1,11 @@
+const googleRedirectURL =
+  useRuntimeConfig().oauth.google.redirectUrl
+
 export default defineOAuthGoogleEventHandler({
+  config: {
+    // 強制指定回呼網址，避免 Cloudflare 或 Nuxt 推導錯誤
+    redirectURL: googleRedirectURL
+  },
   async onSuccess(event, { user }) {
     const entry = allowedEmails.find((item) => item.email === user.email)
 
