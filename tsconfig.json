@@ -1,5 +1,12 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json",
-  "include": ["auth.d.ts"]
+  // Nuxt 4 依執行環境拆分 tsconfig，以 project references 引用，
+  // 如此 nuxi typecheck 與編輯器才會分別以 app、server 的設定檢查各自的程式碼
+  "files": [],
+  "references": [
+    { "path": "./.nuxt/tsconfig.app.json" },
+    { "path": "./.nuxt/tsconfig.server.json" },
+    { "path": "./.nuxt/tsconfig.shared.json" },
+    { "path": "./.nuxt/tsconfig.node.json" }
+  ]
 }
