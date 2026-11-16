@@ -37,25 +37,22 @@ export default defineNuxtRouteMiddleware((to) => {
   }
 
   // ----------------------------------------------------------------
-  // 4. 特定路徑權限管控 (執行到此處，代表 loggedIn 必為 true)
+  // 4. 功能權限管控 (執行到此處，代表 loggedIn 必為 true)
   // ----------------------------------------------------------------
-  if (to.path.startsWith('/drafting/')) {
-    // 定義可以存取草擬系統的白名單
-    const draftingWhitelist = ['ntpuscs@gmail.com']
+  // 頁面以 definePageMeta({ permission }) 宣告所屬功能；
+  // 權限由伺服器依 server/utils/whitelist.ts 計算後放進 session，此處只讀不寫
+  const requiredPermission = to.meta.permission
+  if (requiredPermission && !hasPermission(user.value, requiredPermission)) {
+    console.warn(
+      `[auth.global] 無權限訪問 ${to.path}（需要 ${requiredPermission} 權限）`
+    )
 
-    // 檢查當前使用者的 email 是否存在於白名單中
-    if (!user.value || !draftingWhitelist.includes(user.value.email)) {
-      console.warn(
-        `[auth.global] 無權限訪問: ${user.value?.email} 嘗試進入 ${to.path}`
-      )
+    // 用 useState 設定一個全域 toast 訊息，讓 layout 顯示警告
+    // key 需與 congress.vue 中的 useState 一致
+    const toastMessage = useState<string | null>('toast-message', () => null)
+    toastMessage.value = '您的帳號沒有使用此功能的權限'
 
-      // 用 useState 設定一個全域 toast 訊息，讓 layout 顯示警告
-      // key 需與 congress.vue 中的 useState 一致
-      const toastMessage = useState<string | null>('toast-message', () => null)
-      toastMessage.value = '網頁僅供學生議會使用，您不能瀏覽此網頁'
-
-      // 無權限，導回首頁
-      return navigateTo('/')
-    }
+    // 無權限，導回首頁
+    return navigateTo('/')
   }
 })

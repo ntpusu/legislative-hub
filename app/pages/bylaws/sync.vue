@@ -2,7 +2,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
 const { repo, workflowNameBylaws } = config.public.legiDataSource
-definePageMeta({ layout: 'congress' })
+definePageMeta({ layout: 'congress', permission: 'sync:bylaws' })
 
 useHead({
   title: '同步法規'

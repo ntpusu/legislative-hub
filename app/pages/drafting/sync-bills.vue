@@ -1,6 +1,6 @@
 <!-- app/pages/drafting/sync-bills.vue -->
 <script setup lang="ts">
-definePageMeta({ layout: 'congress' })
+definePageMeta({ layout: 'congress', permission: 'sync:bills' })
 useHead({
   title: '同步議案'
 })

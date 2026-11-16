@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ layout: 'congress' })
+definePageMeta({ layout: 'congress', permission: 'drafting' })
 useHead({
   title: '草擬議程'
 })

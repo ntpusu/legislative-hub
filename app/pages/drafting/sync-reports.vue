@@ -1,7 +1,7 @@
 <!-- app/pages/drafting/sync-reports.vue -->
 
 <script setup lang="ts">
-definePageMeta({ layout: 'congress' })
+definePageMeta({ layout: 'congress', permission: 'sync:committee-reports' })
 useHead({
   title: '同步建議事項'
 })
