@@ -3,12 +3,13 @@
 // 於每次取得 session（SSR 首次載入與前端 fetch）時依白名單重新計算後附上，
 // 不寫回 cookie。如此白名單是唯一來源，調整後下次載入頁面即生效。
 
+import { getAdmins } from '../utils/access'
 import { resolveIdentity } from '../utils/whitelist'
 
 export default defineNitroPlugin(() => {
   sessionHooks.hook('fetch', async (session, event) => {
     const email = session.user?.email
-    const identity = email ? resolveIdentity(email) : null
+    const identity = email ? resolveIdentity(email, getAdmins(event)) : null
 
     if (!identity) {
       // 已被移出白名單（或 session 內容異常）：清除 session，視同未登入

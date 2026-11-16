@@ -80,6 +80,10 @@ export default defineNuxtConfig({
       }
     },
     githubToken: '', // 請在環境變數設定
+    // 管理員帳號（具有所有功能權限），請以環境變數 NUXT_ADMINS 設定，格式為 JSON 陣列：
+    // [{"email":"a@example.com","nickname":"阿珍"}]
+    // 僅供伺服器端使用，切勿移到 public 底下，以免管理員的 email 外流
+    admins: '',
     oauth: {
       google: {
         clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,

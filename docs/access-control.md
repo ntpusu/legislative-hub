@@ -18,6 +18,18 @@ LegiHub 以 Google 帳號登入，可登入的帳號、各帳號的角色、各�
 | 讓頁面只限特定功能權限進入 | 頁面的 `definePageMeta({ permission: '...' })` |
 | 讓 API 只限特定功能權限使用 | API 內呼叫 `requirePermission(event, '...')` |
 
+## 管理員
+
+管理員具有所有功能權限，即使不在白名單中也能登入。為避免公開管理員的 email，管理員**不寫在 `whitelist.ts`**，而是以環境變數 `NUXT_ADMINS` 設定（部署於 Cloudflare Pages 時，於專案設定的環境變數中填寫）：
+
+```
+NUXT_ADMINS=[{"email":"admin1@example.com","nickname":"阿珍"},{"email":"admin2@example.com","nickname":"小明"}]
+```
+
+- 格式為 JSON 陣列，每筆需有 `email` 與 `nickname`。格式錯誤時，系統一律視為沒有管理員，並於 log 記錄錯誤（不記錄 email）。
+- 管理員的單位簡稱顯示為「管理員（暱稱）」。觸發同步時，legislative-data 的同步紀錄會註記「由「管理員（阿珍）」透過「NTPUSCS Legislative Hub」的 API 觸發」。**暱稱會出現在公開的 commit 紀錄中，email 則不會。**
+- 修改環境變數後，需重新部署才會生效。
+
 ## 運作方式
 
 1. 使用者以 Google 帳號登入。`server/api/auth/google.get.ts` 確認信箱已經 Google 驗證、且在白名單中，session cookie 只寫入 email 與 Google 名稱。

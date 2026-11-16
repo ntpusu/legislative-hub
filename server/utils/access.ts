@@ -5,12 +5,25 @@
 
 import type { H3Event } from 'h3'
 import type { Permission } from '~~/shared/utils/permissions'
-import { resolveIdentity, type Identity } from './whitelist'
+import {
+  parseAdmins,
+  resolveIdentity,
+  type AdminEntry,
+  type Identity
+} from './whitelist'
+
+/**
+ * 取得以環境變數 NUXT_ADMINS 設定的管理員。
+ * 須帶入 event，Cloudflare 執行期注入的環境變數才會套用到 runtimeConfig。
+ */
+export function getAdmins(event: H3Event): AdminEntry[] {
+  return parseAdmins(useRuntimeConfig(event).admins)
+}
 
 /** 要求已登入且仍在白名單中，回傳使用者身分 */
 export async function requireIdentity(event: H3Event): Promise<Identity> {
   const { user } = await requireUserSession(event)
-  const identity = resolveIdentity(user.email)
+  const identity = resolveIdentity(user.email, getAdmins(event))
 
   if (!identity) {
     throw createError({

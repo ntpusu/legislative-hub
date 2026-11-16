@@ -10,7 +10,11 @@ export default defineOAuthGoogleEventHandler({
       typeof user.email === 'string' ? normalizeEmail(user.email) : ''
 
     // 未經 Google 驗證的信箱不予採信；白名單判斷見 server/utils/whitelist.ts
-    if (!email || user.email_verified !== true || !resolveIdentity(email)) {
+    if (
+      !email ||
+      user.email_verified !== true ||
+      !resolveIdentity(email, getAdmins(event))
+    ) {
       throw createError({
         statusCode: 403,
         statusMessage: '您的帳號未經授權，如有疑問請洽網管小組。'
