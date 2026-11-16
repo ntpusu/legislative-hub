@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { siteNavigation } from '../../config/navigation'
 const config = useRuntimeConfig().public
+const siteNavigation = useVisibleNavigation()
 
 definePageMeta({
   layout: 'congress'

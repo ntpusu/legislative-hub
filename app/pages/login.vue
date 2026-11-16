@@ -74,8 +74,7 @@ const handleGoogleLogin = () => {
             <AlertTriangle :size="20" />
             <small>
               1. 非授權帳號將無法通過驗證。若官方信箱有異動，請聯絡網管小組。<br />2.
-              <mark>議事文件草擬</mark
-              >系統僅限「學生議會（三峽校區）」登入使用，其他機關點選後將被直接導回首頁。
+              部分功能（例如<mark>議事文件草擬</mark>）僅開放特定機關使用，登入後選單只會顯示貴機關可使用的功能。
             </small>
           </div>
         </footer>

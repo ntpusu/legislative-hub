@@ -10,9 +10,9 @@ import {
   X,
   ChevronDown
 } from 'lucide-vue-next'
-import { siteNavigation } from '../../config/navigation'
 
 const { user, clear } = useUserSession()
+const siteNavigation = useVisibleNavigation()
 const config = useRuntimeConfig().public
 const colorMode = useColorMode()
 const router = useRouter()
