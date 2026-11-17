@@ -209,9 +209,15 @@ const handleCopyHtml = async () => {
 
           <ul v-if="hasData(cat.prefix)">
             <li v-for="[id, title] in categorizedLaws[cat.prefix]" :key="id">
-              <a href="#" @click.prevent="openModal(id.toString(), title)">
+              <!-- 點選後開啟彈窗而非換頁，語意上是按鈕（WCAG 4.1.2） -->
+              <button
+                type="button"
+                class="link-button"
+                aria-haspopup="dialog"
+                @click="openModal(id.toString(), title)"
+              >
                 {{ id.toString().padStart(4, '0') }} - {{ title }}
-              </a>
+              </button>
             </li>
           </ul>
 

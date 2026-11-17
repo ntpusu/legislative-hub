@@ -44,6 +44,8 @@ const handleGoogleLogin = () => {
               height="20"
               viewBox="0 0 48 48"
               style="vertical-align: middle; margin-right: 8px"
+              aria-hidden="true"
+              focusable="false"
             >
               <path
                 fill="#EA4335"
@@ -71,10 +73,15 @@ const handleGoogleLogin = () => {
       <footer>
         <div class="warning-box">
           <AlertTriangle :size="20" />
-          <small>
-            1. 非授權帳號將無法通過驗證。若官方信箱有異動，請聯絡網管小組。<br />2.
-            部分功能可能僅開放特定機關使用，登入後選單只會顯示貴機關可使用的功能。
-          </small>
+          <!-- 以清單標記呈現編號項目，而非手動輸入編號（WCAG 1.3.1） -->
+          <ol class="notes">
+            <li>
+              非授權帳號將無法通過驗證。若官方信箱有異動，請聯絡網管小組。
+            </li>
+            <li>
+              部分功能可能僅開放特定機關使用，登入後選單只會顯示貴機關可使用的功能。
+            </li>
+          </ol>
         </div>
       </footer>
     </article>
@@ -100,6 +107,16 @@ article {
   justify-content: center;
   margin-bottom: var(--pico-spacing);
   color: var(--pico-primary);
+}
+
+.warning-box .notes {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+  font-size: 0.875em;
+}
+
+.warning-box .notes li {
+  margin-bottom: 0.25rem;
 }
 
 .warning-box {

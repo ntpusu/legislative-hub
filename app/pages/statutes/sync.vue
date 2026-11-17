@@ -42,21 +42,24 @@ async function trigger() {
       {{ status === 'loading' ? '同步中…' : '立即同步' }}
     </button>
 
-    <p v-if="status === 'success'">
-      ✅ 已成功觸發，工作流正在執行中（成功觸發不代表 workflow
-      已執行完畢，甚至未必執行成功，執行情形請到
-      <a
-        :href="`https://github.com/${repo}/actions/workflows/${workflowNameStatutes}`"
-        target="_blank"
-        rel="noopener noreferrer"
-        >GitHub Actions<NewTabHint
-      /></a>
-      頁面查看）。
-    </p>
-    <p v-if="status === 'error'">
-      ❌ 執行工作流發生錯誤，請將下列訊息回報給會網維護小組：<br />{{
-        errorMsg
-      }}
-    </p>
+    <!-- 同步結果以 live region 通知螢幕報讀軟體（WCAG 4.1.3） -->
+    <div role="status">
+      <p v-if="status === 'success'">
+        ✅ 已成功觸發，工作流正在執行中（成功觸發不代表 workflow
+        已執行完畢，甚至未必執行成功，執行情形請到
+        <a
+          :href="`https://github.com/${repo}/actions/workflows/${workflowNameStatutes}`"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub Actions<NewTabHint
+        /></a>
+        頁面查看）。
+      </p>
+      <p v-if="status === 'error'">
+        ❌ 執行工作流發生錯誤，請將下列訊息回報給會網維護小組：<br />{{
+          errorMsg
+        }}
+      </p>
+    </div>
   </div>
 </template>

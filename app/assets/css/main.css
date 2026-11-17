@@ -165,3 +165,31 @@ dialog > article > header :is(a, button)[rel='prev'] {
   height: 2.75rem;
   margin: -0.875rem -0.875rem -0.875rem var(--pico-spacing);
 }
+
+/*
+ * 外觀為連結、語意為按鈕的元件：用於「開啟彈窗」等不會換頁的操作，
+ * 讓螢幕報讀軟體正確讀出「按鈕」而非「連結」（WCAG 4.1.2）。
+ */
+button.link-button {
+  --pico-background-color: transparent;
+  --pico-border-color: transparent;
+  --pico-box-shadow: none;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  color: var(--pico-primary);
+  font-size: inherit;
+  line-height: inherit;
+  text-align: start;
+  text-decoration: underline;
+  text-decoration-color: var(--pico-primary-underline);
+  text-underline-offset: 0.125rem;
+}
+
+button.link-button:is(:hover, :active, :focus) {
+  --pico-background-color: transparent;
+  --pico-border-color: transparent;
+  color: var(--pico-primary-hover);
+  text-decoration-color: var(--pico-primary-hover-underline);
+}

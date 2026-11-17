@@ -13,7 +13,7 @@
     </header>
 
     <article>
-      <h3 style="font-size: 1.5rem">手動同步</h3>
+      <h2 style="font-size: 1.5rem">手動同步</h2>
       <p>
         系統每天早上6點會從 Google Sheets 同步到 {{ shortName }} (這裡)
         一次。如果您剛更新試算表、需要立即對外展示，也可點選下方按鈕，手動同步。
@@ -25,35 +25,38 @@
       >
         {{ status === 'loading' ? '同步中…' : '立即同步' }}
       </button>
-      <p v-if="status === 'success'">
-        ✅ 已成功觸發，工作流正在執行中（成功觸發不代表 workflow
-        已執行完畢，甚至未必執行成功，執行情形請到
-        <a
-          :href="`https://github.com/${repo}/actions/workflows/${workflowNameReps}`"
-          target="_blank"
-          rel="noopener noreferrer"
-          >GitHub Actions<NewTabHint
-        /></a>
-        頁面查看）。
-      </p>
-      <p v-if="status === 'error'">
-        ❌ 執行工作流發生錯誤，請將下列訊息回報給會網維護小組：<br />{{
-          errorMsg
-        }}
-      </p>
+      <!-- 同步結果以 live region 通知螢幕報讀軟體（WCAG 4.1.3） -->
+      <div role="status">
+        <p v-if="status === 'success'">
+          ✅ 已成功觸發，工作流正在執行中（成功觸發不代表 workflow
+          已執行完畢，甚至未必執行成功，執行情形請到
+          <a
+            :href="`https://github.com/${repo}/actions/workflows/${workflowNameReps}`"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub Actions<NewTabHint
+          /></a>
+          頁面查看）。
+        </p>
+        <p v-if="status === 'error'">
+          ❌ 執行工作流發生錯誤，請將下列訊息回報給會網維護小組：<br />{{
+            errorMsg
+          }}
+        </p>
+      </div>
     </article>
 
     <section style="margin-top: 3em">
       <hgroup>
-        <h3>預覽學生代表名冊</h3>
+        <h2 style="font-size: 1.5rem">預覽學生代表名冊</h2>
         <p>以下呈現的內容與對外網站相同。</p>
       </hgroup>
     </section>
 
     <!-- 載入狀態 -->
     <article v-if="loading" style="text-align: center">
-      <progress indeterminate></progress>
-      <p>正在載入資料...</p>
+      <progress indeterminate aria-labelledby="reps-loading-label"></progress>
+      <p id="reps-loading-label">正在載入資料...</p>
     </article>
 
     <!-- 錯誤狀態 -->
@@ -108,13 +111,19 @@
               無推派資料
             </span>
           </p>
+          <!--
+            每張卡片的按鈕都叫「查看」，單獨聽到時無法分辨，
+            補上僅供螢幕報讀軟體讀取的會議名稱（WCAG 2.4.6）。
+            原生 <button> 本身即支援 Enter／空白鍵，不需另外監聽。
+          -->
           <button
             class="outline secondary"
+            aria-haspopup="dialog"
             @click="openModal(meeting)"
-            @keypress.enter="openModal(meeting)"
-            @keypress.space.prevent="openModal(meeting)"
           >
-            查看
+            查看<span class="visually-hidden"
+              >「{{ meeting.name }}」詳細資料</span
+            >
           </button>
         </article>
       </div>
