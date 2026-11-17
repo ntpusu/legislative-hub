@@ -4,23 +4,17 @@
 
 NTPUSU Governance Cloud (GovCloud) 是[臺北大學學生自治會](https://github.com/ntpusu)內部用來維護法規等公開資料的專案。
 
-## 系統整體運作說明
+## 使用說明
+
+自治法規的維護流程、原始檔格式、線上法規排版，以及如何貼到會網（RPage），請完全參閱 [docs/statutes-maintenance.md](docs/statutes-maintenance.md)。
+
+其他文件：
+
+- [帳號、角色與權限](docs/access-control.md)
+- [自治法規 API](docs/api/statutes.md)
 
 > 系統名稱、組織名稱與相關文案集中定義於 [`config/site.config.ts`](config/site.config.ts)，程式與文件中一律引用之，避免日後更名時需要四處修改。
-
-### 法規
-
-1. 使用者（透過各機關 Google 帳號）在 Google Drive 維護法規檔。
-2. 另一專案 [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) 從 Google Drive 同步法規檔案到該專案儲存庫，順便當作備份。
-3. 法規資料同步後，使用者可在本 GovCloud 專案：
-  - 預覽[會網](https://ntpusu.org)上專門為了瀏覽法規設計的樣式（下稱會網樣式）、
-  - 下載修正條文對照表空白表格 DOCX 檔、
-  - 列印符合《中央法規標準法》的公告版 PDF 檔，或
-  - 複製會網樣式原始碼（如果下述第 4 點採取手動嵌入）。
-4. 此外，如果特定法規已經在 WordPress 會網設定 [Sync Plugin](https://github.com/ntpusu/regulation-sync-plugin)，則會網每天早上、下午會各自同步一次法規，並以會網樣式輸出。（使用者可透過本 WordPress 會網後台，手動同步；亦可透過後台編輯文章，手動嵌入會網樣式原始碼。）
-
-以上各步驟的詳細說明請參閱 [docs/statutes-maintenance.md](docs/statutes-maintenance.md)。
-
+>
 > 當前以 **statutes** 指涉自治法規，包含本會組織章程與自治法令兩種類型（組織章程第 61 條參照）。因此程式、路徑與 API 一律使用 `statutes`，不再使用 `regulation`／`bylaw` 等同義詞。
 
 ## 🗂️ 未來規劃
@@ -55,3 +49,5 @@ v3.2：加入了手動觸發資料更新工作流的功能。
 v4.0.0：配合三峽校區學生議會啟用[三代議事服務系統](https://github.com/ntpuscs/Parliamentspage)，本專案更名「NTPUSU Governance Cloud（GovCloud）」並移去該會議案、委員會報告之同步觸發功能，服務範圍集中於學生自治會共用之內容。
 
 v4.0.1: 因 Pico CSS 樣式停止更新，改用 [blades](https://github.com/anyblades/blades) 替代。
+
+v4.1.0：會網改用 RPage CMS，移除 WordPress 與 Sync Plugin 相關說明，改為依 RPage 欄位複製上架資料；整併[第 1 版工具](https://github.com/ntpusu/ntpusu-regulation-typesetting)為「線上法規排版」子系統，該工具停止維護。
