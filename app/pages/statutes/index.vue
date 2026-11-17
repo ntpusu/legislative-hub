@@ -14,6 +14,9 @@ useHead({
 const selectedFilters = ref(['common', 'sanxia', 'taipei'])
 const isModalOpen = ref(false)
 const currentLaw = ref<{ id: string; title: string } | null>(null)
+const lawDialogRef = ref<HTMLDialogElement | null>(null)
+// 開啟彈窗前的焦點元素，關閉後將焦點還原到該處
+let lastFocused: HTMLElement | null = null
 
 // 載入狀態防護
 const isGeneratingDocx = ref(false)
@@ -71,13 +74,25 @@ const categorizedLaws = computed(() => {
 })
 
 // -- 互動邏輯 --
+/**
+ * 以 showModal() 開啟彈窗（而非設定 open 屬性），瀏覽器才會：
+ * 將焦點移入彈窗、把背後內容設為不可操作，並支援以 Esc 關閉。
+ */
 const openModal = (id: string, title: string) => {
+  lastFocused = document.activeElement as HTMLElement | null
   currentLaw.value = { id, title }
   isModalOpen.value = true
+  lawDialogRef.value?.showModal()
 }
 
 const closeModal = () => {
+  if (lawDialogRef.value?.open) lawDialogRef.value.close()
+}
+
+/** dialog 的 close 事件：按下關閉按鈕或 Esc 都會觸發 */
+const onDialogClose = () => {
   isModalOpen.value = false
+  lastFocused?.focus()
   setTimeout(() => {
     currentLaw.value = null
   }, 300)
@@ -205,13 +220,17 @@ const handleCopyHtml = async () => {
       </template>
     </div>
 
-    <dialog :open="isModalOpen">
+    <dialog
+      ref="lawDialogRef"
+      aria-labelledby="law-dialog-title"
+      @close="onDialogClose"
+    >
       <article>
         <header>
-          <button aria-label="Close" rel="prev" @click="closeModal"></button>
-          <p>
-            <strong>{{ currentLaw?.title }}</strong>
-          </p>
+          <button aria-label="關閉" rel="prev" @click="closeModal"></button>
+          <h2 id="law-dialog-title" class="dialog-title">
+            {{ currentLaw?.title }}
+          </h2>
         </header>
 
         <p>法規編號：{{ currentLaw?.id.toString().padStart(4, '0') }}</p>

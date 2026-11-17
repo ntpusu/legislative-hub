@@ -145,10 +145,10 @@ const toggleTheme = () => {
     </Transition>
 
     <!-- ── 登出確認 Dialog ────────────────────────────────── -->
-    <dialog ref="logoutDialogRef">
+    <dialog ref="logoutDialogRef" aria-labelledby="logout-dialog-title">
       <article>
         <header>
-          <strong>確認登出</strong>
+          <h2 id="logout-dialog-title" class="dialog-title">確認登出</h2>
         </header>
         <p>您確定要登出系統嗎？</p>
         <footer>

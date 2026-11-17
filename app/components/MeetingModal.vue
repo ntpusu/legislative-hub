@@ -5,20 +5,21 @@
       <dialog
         v-if="modelValue"
         ref="dialogRef"
+        aria-labelledby="meeting-dialog-title"
         @click="closeOnBackdrop"
         @close="closeModal"
       >
         <article>
           <header>
             <button aria-label="關閉" rel="prev" @click="closeModal"></button>
-            <p>
-              <strong>{{ meeting.name }}</strong>
-            </p>
+            <h2 id="meeting-dialog-title" class="dialog-title">
+              {{ meeting.name }}
+            </h2>
           </header>
 
           <!-- 基本資訊 -->
           <section>
-            <h5>基本資訊</h5>
+            <h3 class="section-title">基本資訊</h3>
             <p v-if="meeting.department">
               <strong>承辦單位：</strong>
               <a
@@ -51,7 +52,7 @@
 
           <!-- 推派方式 -->
           <section v-if="hasNominationInfo">
-            <h5>推派方式</h5>
+            <h3 class="section-title">推派方式</h3>
             <p v-if="meeting.regulationArticle">
               <strong>依據：</strong>本會學代推派辦法{{
                 meeting.regulationArticle
@@ -95,7 +96,7 @@
 
           <!-- 學生代表名冊 -->
           <section>
-            <h5>學生代表</h5>
+            <h3 class="section-title">學生代表</h3>
             <div v-if="meeting.assignedReps.length > 0" class="overflow-auto">
               <table class="striped">
                 <thead>
@@ -121,7 +122,7 @@
 
           <!-- 備註 -->
           <section v-if="meeting.note">
-            <h6>備註</h6>
+            <h3 class="section-title">備註</h3>
             <p style="white-space: pre-wrap">{{ meeting.note }}</p>
           </section>
 
@@ -147,6 +148,8 @@ const emit = defineEmits<{
 }>()
 
 const dialogRef = ref<HTMLDialogElement | null>(null)
+// 開啟彈窗前的焦點元素（通常是「查看」按鈕），關閉後將焦點還原
+let lastFocused: HTMLElement | null = null
 
 const hasNominationInfo = computed(() => {
   return !!(
@@ -174,9 +177,12 @@ watch(
   () => props.modelValue,
   (isOpen) => {
     if (isOpen) {
+      lastFocused = document.activeElement as HTMLElement | null
       dialogRef.value?.showModal()
     } else {
       dialogRef.value?.close()
+      // dialog 隨 v-if 移除後，瀏覽器無法自行還原焦點，需手動處理
+      nextTick(() => lastFocused?.focus())
     }
   }
 )
@@ -184,6 +190,7 @@ watch(
 // dialog 透過 v-if 掛載後才取得元素，此時再以 showModal() 開啟
 watch(dialogRef, (el) => {
   if (el && props.modelValue) {
+    lastFocused ??= document.activeElement as HTMLElement | null
     el.showModal()
   }
 })
@@ -193,6 +200,11 @@ watch(dialogRef, (el) => {
 /* Blades 的 <dialog> 本身即為全螢幕遮罩，不另外設定 ::backdrop，以免疊加兩層背景 */
 dialog::backdrop {
   background: transparent;
+}
+
+/* 區塊標題：語意上為 h3，字級維持原本 h5 的大小 */
+.section-title {
+  font-size: 1.125rem;
 }
 
 .dialog-enter-active,

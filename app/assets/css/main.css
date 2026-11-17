@@ -146,3 +146,22 @@
 .skip-link:focus {
   transform: translateY(0);
 }
+
+/*
+ * 彈窗標題：為了讓輔助科技辨識標題層級而使用 <h2>，
+ * 字級維持與彈窗標頭相稱的大小。
+ */
+dialog .dialog-title {
+  font-size: 1.125rem;
+}
+
+/*
+ * 彈窗的關閉按鈕：Blades 預設僅 1rem（16px）見方，
+ * 放大可點擊範圍至 2.75rem（44px，WCAG 2.5.5），圖示維持 1rem，
+ * 並以負邊距抵銷，避免撐高彈窗標頭。
+ */
+dialog > article > header :is(a, button)[rel='prev'] {
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: -0.875rem -0.875rem -0.875rem var(--pico-spacing);
+}
