@@ -7,10 +7,12 @@
  * 品牌色階（以 #FBBE01 為 400）
  * 與 Blades 相同，使用 light-dark() 讓同一組變數依 color-scheme 取值。
  *
+ * 本站以 WCAG AAA 為目標：一般文字對比 ≥ 7:1、非文字元件（外框、焦點）≥ 3:1。
  * 黃色明度高，白字放在黃底上對比僅約 1.7:1，因此：
  * - 按鈕等「黃底」元件一律搭配深色文字（--pico-primary-inverse）；
- * - 亮色模式中的連結、外框按鈕等「白底黃字」改用較深的 700。
- * 下列對比度皆以 WCAG 2.x 公式計算。
+ * - 亮色模式中的連結、外框按鈕等「白底黃字」改用較深的 800。
+ * 下列對比度以 WCAG 2.x 公式，對「最不利的背景」計算：
+ * 亮色為 #fff、卡片標頭 #fbfcfc、表格斑馬紋；暗色為頁面、卡片、卡片標頭、表單底色。
  */
 :root {
   --brand-50: #fff8e1;
@@ -20,26 +22,31 @@
   --brand-400: #fbbe01; /* 品牌主色 */
   --brand-500: #e0a800;
   --brand-600: #b88a00;
-  --brand-700: #8f6a00; /* 對白底 4.97:1 */
-  --brand-800: #6b4f00;
+  --brand-700: #8f6a00; /* 4.66:1，僅用於非文字元件 */
+  --brand-800: #6b4f00; /* 7.19:1，亮色模式的文字用色 */
   --brand-900: #473400;
-  --brand-950: #2b2000; /* 對 400 為 9.52:1 */
+  --brand-950: #2b2000; /* 對 400 為 9.52:1，黃底上的文字用色 */
 }
 
 /* 與 Blades 宣告配色變數的選擇器相同，並置於其後以覆寫 */
 :root,
 [data-theme='light'],
 [data-theme='dark'] {
-  /* 連結、外框按鈕文字：亮色 700（4.97:1）／暗色 400（10.7:1） */
-  --pico-primary: light-dark(var(--brand-700), var(--brand-400));
+  /* ── 品牌色 ─────────────────────────────────────────── */
+
+  /* 連結、外框按鈕文字：亮色 800（7.19:1）／暗色 400（9.57:1） */
+  --pico-primary: light-dark(var(--brand-800), var(--brand-400));
   --pico-primary-underline: light-dark(
-    rgba(143, 106, 0, 0.5),
+    rgba(107, 79, 0, 0.5),
     rgba(251, 190, 1, 0.5)
   );
-  --pico-primary-hover: light-dark(var(--brand-800), var(--brand-200));
+  --pico-primary-hover: light-dark(var(--brand-900), var(--brand-200));
   --pico-primary-hover-underline: var(--pico-primary-hover);
 
-  /* 實心按鈕：兩種模式皆使用品牌主色，hover 時往背景的反方向調整 */
+  /*
+   * 實心按鈕：兩種模式皆使用品牌主色，hover 時往背景的反方向調整。
+   * 文字 950 對 400／500／300 分別為 9.52／7.46／10.64:1。
+   */
   --pico-primary-background: var(--brand-400);
   --pico-primary-hover-background: light-dark(
     var(--brand-500),
@@ -47,8 +54,8 @@
   );
   --pico-primary-inverse: var(--brand-950);
 
-  /* 焦點外框需與背景達 3:1（WCAG 1.4.11）：亮色 600（3.15:1） */
-  --pico-primary-focus: light-dark(var(--brand-600), var(--brand-400));
+  /* 焦點外框（非文字，需 ≥ 3:1）：亮色 700（4.66:1）／暗色 400（9.57:1） */
+  --pico-primary-focus: light-dark(var(--brand-700), var(--brand-400));
   --pico-form-element-active-border-color: var(--pico-primary-focus);
   --pico-form-element-focus-color: var(--pico-primary-focus);
 
@@ -57,9 +64,41 @@
     rgba(251, 190, 1, 0.25)
   );
 
+  /* ── 中性色：Blades 預設值多僅約 4.3–6.5:1，調整至 ≥ 7:1 ─────── */
+
+  --pico-muted-color: light-dark(#4e535e, #a8aeb9); /* 7.24／7.23 */
+
+  --pico-secondary: light-dark(#48536b, #a7aebc); /* 7.23／7.23 */
+  --pico-secondary-underline: light-dark(
+    rgba(72, 83, 107, 0.5),
+    rgba(167, 174, 188, 0.5)
+  );
+  --pico-secondary-hover: light-dark(#353e52, #c9ced8);
+  --pico-secondary-hover-underline: var(--pico-secondary-hover);
+  /* 次要實心按鈕為白字：#48536b 為 7.71:1、#3a4357 為 9.9:1 */
+  --pico-secondary-background: #48536b;
+  --pico-secondary-hover-background: #3a4357;
+
+  --pico-h5-color: light-dark(#4d535e, #b3b9c5); /* 7.26／8.18 */
+  --pico-h6-color: light-dark(#4e535e, #a8aeb9); /* 7.24／7.23 */
+  --pico-code-color: var(--pico-color);
+
+  --pico-ins-color: light-dark(#195d4a, #78baa8); /* 7.29／7.2 */
+  --pico-del-color: light-dark(#883835, #da9f9c); /* 7.4／7.23 */
+
+  /* 表單元件外框需能辨識（非文字 ≥ 3:1）：3.71／3.38 */
+  --pico-form-element-border-color: light-dark(#7c8597, #6a7385);
+  --pico-form-element-placeholder-color: var(--pico-muted-color);
+
   /* 勾選框打勾／半選圖示：預設為白色，改為深色以便在黃底上辨識 */
   --pico-icon-checkbox: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(43, 32, 0)' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
   --pico-icon-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(43, 32, 0)' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3C/svg%3E");
+}
+
+/* 已勾選的勾選框：黃色外框對白底僅 1.68:1，亮色模式改用深色外框 */
+[type='checkbox'],
+[type='radio'] {
+  --pico-primary-border: light-dark(var(--brand-700), var(--brand-400));
 }
 
 /*

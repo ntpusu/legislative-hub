@@ -50,7 +50,8 @@ p.xiang:not(:only-of-type)::before {
   width: 2em;
   font-family: 'Times New Roman', serif;
   font-style: italic;
-  color: #777;
+  /* 項次編號屬於內容，需與內文同樣達到 7:1；列印頁未載入 Blades 時使用備用色 */
+  color: var(--pico-muted-color, #4e535e);
 }
 
 p.kuan {
