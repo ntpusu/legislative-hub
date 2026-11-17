@@ -1,12 +1,13 @@
 <template>
-  <div class="print-page-wrapper">
+  <!-- minimal 版面沒有其他 landmark，以 <main> 包裹主要內容（WCAG 1.3.1） -->
+  <main class="print-page-wrapper">
     <!-- 1. 讀取與錯誤狀態處理 -->
     <div v-if="pending" class="loading-state">
       <p>正在準備列印文件...</p>
     </div>
 
     <div v-else-if="error" class="error-state">
-      <h3>無法讀取法規</h3>
+      <h1>無法讀取法規</h1>
       <p>{{ error.message }}</p>
     </div>
 
@@ -19,7 +20,7 @@
 
       <h1 class="statute-title-print">
         {{ statute.titleFull }}
-        <span v-if="statute.status === 'abandoned'" style="color: red"
+        <span v-if="statute.status === 'abandoned'" class="abandoned"
           >(廢止)</span
         >
       </h1>
@@ -34,7 +35,7 @@
       <div v-if="statute.fullText" v-html="statute.fullText"></div>
 
       <hr class="history-separator" />
-      <p class="history-title">沿革</p>
+      <h2 class="history-title">沿革</h2>
       <ol>
         <li
           v-for="(item, index) in statute.history"
@@ -43,7 +44,7 @@
         ></li>
       </ol>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -120,8 +121,14 @@ useHead({
   padding: 2rem;
   font-family: sans-serif;
 }
-.error-state {
-  color: red;
+/* 紅字原為 red（對白底 4.0:1，未達 AA），改為 #a50000（≥ 7:1） */
+.error-state,
+.abandoned {
+  color: #a50000;
+}
+
+.error-state h1 {
+  font-size: 1.25rem;
 }
 
 /* 標題 */
@@ -170,8 +177,9 @@ useHead({
 }
 
 .print-button {
-  padding: 5px 10px;
-  font-size: 9pt;
+  min-height: 2.75rem; /* 點擊範圍 ≥ 44px（WCAG 2.5.5） */
+  padding: 5px 16px;
+  font-size: 10pt;
   cursor: pointer;
 }
 
