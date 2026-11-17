@@ -1,6 +1,6 @@
 <!-- app/pages/student-representatives.vue -->
 <template>
-  <main>
+  <div>
     <header>
       <hgroup>
         <h1>同步學生代表名冊</h1>
@@ -68,15 +68,7 @@
         目前尚無會議資料
       </article>
 
-      <div
-        class="grid"
-        v-else
-        style="
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 1.5rem;
-        "
-      >
+      <div v-else class="cards-container">
         <article v-for="meeting in getMeetingsWithReps" :key="meeting.id">
           <header>
             <strong>{{ meeting.name }}</strong>
@@ -133,7 +125,7 @@
       v-model="showModal"
       :meeting="selectedMeeting"
     />
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -204,32 +196,15 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.meeting-card {
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* 以 auto-fill 讓卡片寬度不足 300px 時自動換行 */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--pico-spacing);
 }
 
-.meeting-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-}
-
-.meeting-card:focus {
-  outline: 2px solid var(--pico-primary);
-  outline-offset: 2px;
-}
-
-.meeting-card:active {
-  transform: translateY(-2px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .meeting-card {
-    transition: none;
-  }
-
-  .meeting-card:hover {
-    transform: none;
-  }
+/* 間距由 gap 處理，取消 article 預設的下邊距 */
+.cards-container > article {
+  margin-bottom: 0;
 }
 </style>
