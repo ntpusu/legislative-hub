@@ -119,6 +119,11 @@ function parseYaml(text: string): object {
   return load(text, { schema: CORE_SCHEMA }) as object
 }
 
+/** 只接受 YAML front matter */
+function rejectFrontMatterLanguage(): object {
+  throw new Error('front matter 只能使用 YAML 格式（第一行請寫「---」）。')
+}
+
 /**
  * gray-matter 會呼叫 Node.js 的 Buffer.from()（只用來保存原始輸入，不影響解析結果），
  * 瀏覽器沒有 Buffer，因此在瀏覽器執行時暫時提供最小的替代品，呼叫完立即移除。
@@ -129,7 +134,15 @@ function runGrayMatter(raw: string) {
   if (needsShim) g.Buffer = { from: (input: unknown) => input }
   try {
     // 傳入 options 也會停用 gray-matter 以輸入字串為鍵的快取，避免記憶體隨輸入次數成長
-    return matter(raw, { engines: { yaml: parseYaml } })
+    return matter(raw, {
+      engines: {
+        yaml: parseYaml,
+        // gray-matter 內建的 JavaScript 引擎會以 eval() 執行「---js」開頭的 front matter，
+        // 原始檔來自多個帳號可編輯的 Google Drive，必須停用，以免在伺服器或瀏覽器執行任意程式碼
+        javascript: rejectFrontMatterLanguage,
+        js: rejectFrontMatterLanguage
+      }
+    })
   } finally {
     if (needsShim) delete g.Buffer
   }
@@ -368,6 +381,10 @@ export function parseStatuteSource(input: string): ParsedStatuteSource {
       // front matter 從第 1 行的 --- 之後開始，因此 YAML 的第 0 行即原始檔第 1 行
       if (err.mark) issue.line = err.mark.line + 1
       issue.message = `YAML 基本資料有語法錯誤（${err.reason}），請檢查縮排、冒號與引號。`
+    } else {
+      // 例如第一行寫成「---js」等非 YAML 的 front matter
+      issue.line = 1
+      issue.message = '第一行須為「---」，基本資料只能使用 YAML 格式。'
     }
     return {
       meta: emptyStatuteMeta(),
