@@ -104,8 +104,10 @@ const toggleTheme = () => {
         <footer>
           <button class="secondary outline" @click="cancelLogout">取消</button>
           <button @click="confirmLogout">
-            <LogOut :size="14" class="mr-2" />
-            是，登出
+            <span class="icon-text">
+              <LogOut :size="14" />
+              是，登出
+            </span>
           </button>
         </footer>
       </article>
@@ -132,10 +134,10 @@ const toggleTheme = () => {
         <nav>
           <ul>
             <li class="sidebar-header">
-              <div class="flex items-center justify-between w-full">
-                <span class="font-bold text-xl">{{ config.shortName }}</span>
+              <div class="sidebar-title">
+                <strong class="sidebar-brand">{{ config.shortName }}</strong>
                 <button
-                  class="md:hidden outline secondary"
+                  class="sidebar-close outline secondary"
                   @click="isMobileMenuOpen = false"
                 >
                   <X :size="16" />
@@ -146,15 +148,19 @@ const toggleTheme = () => {
             <li v-if="user" class="user-info">
               <details class="dropdown">
                 <summary class="secondary outline">
-                  <User :size="16" class="inline mr-2" />
-                  {{ user.shortName || '使用者簡稱未定義' }}
+                  <span class="icon-text">
+                    <User :size="16" />
+                    {{ user.shortName || '使用者簡稱未定義' }}
+                  </span>
                 </summary>
                 <ul dir="rtl">
                   <li>
                     <!-- 改為呼叫 openLogoutDialog，不直接 clear -->
                     <a href="#" @click.prevent="openLogoutDialog">
-                      <LogOut :size="14" class="mr-2" />
-                      登出
+                      <span class="icon-text">
+                        <LogOut :size="14" />
+                        登出
+                      </span>
                     </a>
                   </li>
                 </ul>
@@ -166,8 +172,10 @@ const toggleTheme = () => {
             <li v-for="item in siteNavigation" :key="item.name">
               <details>
                 <summary>
-                  <component :is="item.icon" :size="18" class="inline mr-2" />
-                  {{ item.name }}
+                  <span class="icon-text">
+                    <component :is="item.icon" :size="18" />
+                    {{ item.name }}
+                  </span>
                 </summary>
                 <ul>
                   <li v-for="sub in item.children" :key="sub.name">
@@ -184,12 +192,15 @@ const toggleTheme = () => {
 
           <ul class="sidebar-footer">
             <li>
-              <button @click="toggleTheme" class="outline contrast w-full">
-                <Sun v-if="colorMode.value === 'dark'" :size="18" />
-                <Moon v-else :size="18" />
-                <span class="ml-2">{{
-                  colorMode.value === 'dark' ? '亮色模式' : '暗色模式'
-                }}</span>
+              <button
+                @click="toggleTheme"
+                class="theme-toggle outline contrast"
+              >
+                <span class="icon-text">
+                  <Sun v-if="colorMode.value === 'dark'" :size="18" />
+                  <Moon v-else :size="18" />
+                  {{ colorMode.value === 'dark' ? '亮色模式' : '暗色模式' }}
+                </span>
               </button>
             </li>
           </ul>
@@ -204,11 +215,11 @@ const toggleTheme = () => {
           <p>
             <small>
               © {{ currentYear }} {{ config.copyright }}<br />
-              <span class="text-xs opacity-70"
+              <span class="footer-meta"
                 >{{ config.name }} - {{ config.tagline }}</span
               >
               <br />
-              <span class="text-xs opacity-70">
+              <span class="footer-meta">
                 <a :href="`${config.repoUrl}`" target="_blank">Open Source</a>
               </span>
             </small>
@@ -254,6 +265,33 @@ const toggleTheme = () => {
   padding-bottom: 1rem;
 }
 
+.sidebar-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sidebar-brand {
+  font-size: 1.25rem;
+}
+
+/* 圖示與文字並排（取代原 Tailwind 的 inline / mr-2 / ml-2） */
+.icon-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-toggle {
+  width: 100%;
+}
+
+.footer-meta {
+  font-size: 0.75rem;
+  color: var(--pico-muted-color);
+}
+
 .sidebar-footer {
   margin-top: auto;
   padding-top: 1rem;
@@ -270,7 +308,8 @@ const toggleTheme = () => {
 }
 
 @media (min-width: 992px) {
-  .mobile-header {
+  .mobile-header,
+  .sidebar-close {
     display: none;
   }
 }
