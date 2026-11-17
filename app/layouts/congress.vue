@@ -94,17 +94,21 @@ const confirmLogout = async () => {
 // 與 auth.global.ts 共享同一個 useState key
 const toastMessage = useState<string | null>('toast-message', () => null)
 const toastVisible = ref(false)
-const toastTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 
-/** 顯示一則 toast，3 秒後自動消失 */
+/**
+ * 顯示一則 toast。
+ * 不設定自動消失：限時顯示的訊息可能來不及閱讀（WCAG 2.2.1、2.2.3），
+ * 改由使用者自行關閉。
+ */
 const showToast = (message: string) => {
   toastMessage.value = message
   toastVisible.value = true
-  if (toastTimer.value) clearTimeout(toastTimer.value)
-  toastTimer.value = setTimeout(() => {
-    toastVisible.value = false
-    toastMessage.value = null
-  }, 3000)
+}
+
+/** 關閉 toast */
+const dismissToast = () => {
+  toastVisible.value = false
+  toastMessage.value = null
 }
 
 // 當 middleware 在路由跳轉後設定了 toastMessage，這裡負責接收並顯示
@@ -112,9 +116,10 @@ watch(toastMessage, (msg) => {
   if (msg) showToast(msg)
 })
 
-// 元件卸載時清除 timer 避免記憶體洩漏
-onUnmounted(() => {
-  if (toastTimer.value) clearTimeout(toastTimer.value)
+// 直接開啟無權限的網址時，訊息是在伺服器端設定並帶到客戶端，
+// 不會觸發上面的 watch，因此掛載時再檢查一次
+onMounted(() => {
+  if (toastMessage.value) showToast(toastMessage.value)
 })
 
 // ----------------------------------------------------------------
@@ -130,13 +135,12 @@ const toggleTheme = () => {
 
     <!-- ── Toast 通知 ─────────────────────────────────────── -->
     <Transition name="toast">
-      <div
-        v-if="toastVisible && toastMessage"
-        class="toast-notification"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ toastMessage }}
+      <div v-if="toastVisible && toastMessage" class="toast-notification">
+        <!-- 只有訊息本身放在 alert 內，避免螢幕報讀軟體連同按鈕名稱一起朗讀 -->
+        <p role="alert">{{ toastMessage }}</p>
+        <button class="toast-close" aria-label="關閉通知" @click="dismissToast">
+          <X :size="18" />
+        </button>
       </div>
     </Transition>
 
@@ -467,14 +471,45 @@ const toggleTheme = () => {
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* 窄螢幕時可換行，不超出畫面（WCAG 1.4.10） */
+  width: max-content;
+  max-width: calc(100vw - 2rem);
   background: var(--pico-color);
   color: var(--pico-background-color);
-  padding: 0.75rem 1.5rem;
+  padding: 0.25rem 0.25rem 0.25rem 1.5rem;
   border-radius: var(--pico-border-radius);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   font-size: 0.95rem;
-  white-space: nowrap;
-  pointer-events: none;
+}
+
+/* Blades 會對 <p> 直接設定文字色，需改回繼承 toast 的反白配色 */
+.toast-notification p {
+  margin: 0;
+  color: inherit;
+}
+
+/* 關閉按鈕：44px 見方（WCAG 2.5.5），沿用 toast 的反白配色 */
+.toast-close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+}
+
+.toast-close:focus-visible {
+  outline: 2px solid var(--pico-background-color);
+  outline-offset: -4px;
+  box-shadow: none;
 }
 
 /* Toast 進入/離開動畫 */
