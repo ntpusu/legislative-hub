@@ -32,7 +32,7 @@ useHead({
 </script>
 
 <template>
-  <main>
+  <div>
     <article v-if="pending" aria-busy="true">載入中...</article>
 
     <article v-else-if="error">
@@ -49,7 +49,9 @@ useHead({
           <h1>{{ statute.titleFull }}</h1>
           <p>
             {{ statute.modifiedType }}日期：{{ statute.modifiedDate }}
-            <ins v-if="statute.status === 'abandoned'">(廢止)</ins>
+            <strong v-if="statute.status === 'abandoned'" class="abandoned"
+              >(廢止)</strong
+            >
           </p>
         </hgroup>
       </header>
@@ -71,7 +73,7 @@ useHead({
         </details>
       </footer>
     </article>
-  </main>
+  </div>
 </template>
 
 <style scoped>
@@ -80,10 +82,8 @@ section {
   margin-top: 2rem;
 }
 
-ins {
+.abandoned {
   color: var(--pico-del-color);
-  text-decoration: none;
-  font-weight: bold;
   margin-left: 0.5rem;
 }
 </style>

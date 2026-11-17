@@ -118,7 +118,11 @@ const toggleTheme = () => {
       <nav>
         <ul>
           <li>
-            <button class="outline contrast" @click="isMobileMenuOpen = true">
+            <button
+              class="outline contrast"
+              aria-label="開啟選單"
+              @click="isMobileMenuOpen = true"
+            >
               <Menu :size="20" />
             </button>
           </li>
@@ -138,6 +142,7 @@ const toggleTheme = () => {
                 <strong class="sidebar-brand">{{ config.shortName }}</strong>
                 <button
                   class="sidebar-close outline secondary"
+                  aria-label="關閉選單"
                   @click="isMobileMenuOpen = false"
                 >
                   <X :size="16" />
@@ -153,7 +158,7 @@ const toggleTheme = () => {
                     {{ user.shortName || '使用者簡稱未定義' }}
                   </span>
                 </summary>
-                <ul dir="rtl">
+                <ul>
                   <li>
                     <!-- 改為呼叫 openLogoutDialog，不直接 clear -->
                     <a href="#" @click.prevent="openLogoutDialog">
@@ -167,7 +172,7 @@ const toggleTheme = () => {
               </details>
             </li>
 
-            <hr />
+            <li role="separator"><hr /></li>
 
             <li v-for="item in siteNavigation" :key="item.name">
               <details>
@@ -230,7 +235,7 @@ const toggleTheme = () => {
   </div>
 </template>
 
-<!-- 非 scoped 好讓 Pico 樣式全域生效 -->
+<!-- 非 scoped 好讓 Blades 樣式全域生效 -->
 <style>
 @import '@/assets/css/main.css';
 </style>

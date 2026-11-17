@@ -154,7 +154,7 @@ const handleCopyHtml = async () => {
 </script>
 
 <template>
-  <main>
+  <div>
     <header>
       <hgroup>
         <h1>自治法規系統</h1>
@@ -257,7 +257,7 @@ const handleCopyHtml = async () => {
         <footer>注意：立法文件請小心保管，注意使用。</footer>
       </article>
     </dialog>
-  </main>
+  </div>
 </template>
 
 <style scoped>
