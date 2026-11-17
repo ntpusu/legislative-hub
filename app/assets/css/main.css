@@ -1,7 +1,7 @@
 /* app\assets\css\main.css */
 
-/* 引入 Pico CSS */
-@import '@picocss/pico/css/pico.min.css';
+/* Import blades as CSS framework */
+@import '@anyblades/blades';
 
 :root {
   --pico-primary: #0f2d4b;

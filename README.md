@@ -52,4 +52,6 @@ v3.1：資料之儲存、維護，獨立建置 [NTPU Legislative Database](https
 
 v3.2：加入了手動觸發資料更新工作流的功能。
 
-v3.3：配合三峽校區學生議會啟用[三代議事服務系統](https://github.com/ntpuscs/Parliamentspage)，本專案更名「NTPUSU Governance Cloud（GovCloud）」，服務範圍集中於學生自治會共用之內容。
+v4.0.0：配合三峽校區學生議會啟用[三代議事服務系統](https://github.com/ntpuscs/Parliamentspage)，本專案更名「NTPUSU Governance Cloud（GovCloud）」並移去該會議案、委員會報告之同步觸發功能，服務範圍集中於學生自治會共用之內容。
+
+v4.0.1: 因 Pico CSS 樣式停止更新，改用 [blades](https://github.com/anyblades/blades) 替代。

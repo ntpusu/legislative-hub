@@ -53,7 +53,7 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: '', // Tailwind: 讓 Tailwind 的 dark: class 直接生效
-    dataValue: 'theme', // Pico: 對應 Pico 的 [data-theme]
+    dataValue: 'theme', // blades.css: 對應  [data-theme]
     preference: 'system',
     fallback: 'light' // 當偵測不到時的預設值
   },
