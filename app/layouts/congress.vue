@@ -461,6 +461,11 @@ const toggleTheme = () => {
   }
 }
 
+/* 側欄的分類標題與連結：點擊範圍高度 ≥ 44px（WCAG 2.5.5） */
+.sidebar details:not(.dropdown) > summary {
+  padding-block: 0.625rem;
+}
+
 .user-info summary {
   font-size: 0.9rem;
 }

@@ -207,7 +207,7 @@ const handleCopyHtml = async () => {
             <h2>[{{ cat.prefix }}] {{ cat.title }}</h2>
           </header>
 
-          <ul v-if="hasData(cat.prefix)">
+          <ul v-if="hasData(cat.prefix)" class="law-list">
             <li v-for="[id, title] in categorizedLaws[cat.prefix]" :key="id">
               <!-- 點選後開啟彈窗而非換頁，語意上是按鈕（WCAG 4.1.2） -->
               <button
@@ -297,8 +297,20 @@ const handleCopyHtml = async () => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-height: 2.75rem; /* 點擊範圍 ≥ 44px（WCAG 2.5.5），label 亦屬點擊範圍 */
   margin-bottom: 0;
   cursor: pointer;
+}
+
+/* 法規清單：每一項的點擊範圍高度 ≥ 44px（WCAG 2.5.5） */
+.law-list li {
+  margin-bottom: 0;
+}
+
+.law-list .link-button {
+  display: block;
+  width: 100%;
+  padding-block: 0.625rem;
 }
 
 /* 使用 auto-fill 設定最小寬度 320px，讓卡片在寬度不足時自動換行，不會變得太窄 */

@@ -31,12 +31,8 @@ useHead({
           </h2>
         </header>
 
-        <ul>
-          <li
-            v-for="item in section.children"
-            :key="item.name"
-            style="margin-bottom: 0.5rem"
-          >
+        <ul class="nav-list">
+          <li v-for="item in section.children" :key="item.name">
             <NuxtLink :to="item.href" class="secondary">
               {{ item.name }}
             </NuxtLink>
@@ -46,3 +42,15 @@ useHead({
     </div>
   </div>
 </template>
+
+<style scoped>
+/* 連結的點擊範圍高度 ≥ 44px（WCAG 2.5.5） */
+.nav-list li {
+  margin-bottom: 0;
+}
+
+.nav-list a {
+  display: inline-block;
+  padding-block: 0.625rem;
+}
+</style>
