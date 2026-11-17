@@ -30,7 +30,7 @@ const handleGoogleLogin = () => {
           </div>
           <hgroup>
             <h1>自治機關登入</h1>
-            <p>{{ config.name }} 僅限國立臺北大學學生自治會各機關使用</p>
+            <p>{{ config.name }} 僅限{{ config.orgName }}各機關使用</p>
           </hgroup>
         </header>
 

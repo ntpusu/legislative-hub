@@ -16,6 +16,7 @@ const siteNavigation = useVisibleNavigation()
 const config = useRuntimeConfig().public
 const colorMode = useColorMode()
 const router = useRouter()
+const currentYear = new Date().getFullYear()
 
 const isMobileMenuOpen = ref(false)
 
@@ -202,9 +203,9 @@ const toggleTheme = () => {
           <hr />
           <p>
             <small>
-              © 2026 {{ config.copyright }}<br />
+              © {{ currentYear }} {{ config.copyright }}<br />
               <span class="text-xs opacity-70"
-                >{{ config.name }} - 立法自動化．議事資訊化</span
+                >{{ config.name }} - {{ config.tagline }}</span
               >
               <br />
               <span class="text-xs opacity-70">

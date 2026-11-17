@@ -11,7 +11,7 @@
               to="/"
               class="text-xl font-bold text-gray-800 dark:text-gray-100 no-underline"
             >
-              NTPU 學生自治雲
+              {{ config.shortName }}
             </NuxtLink>
           </div>
 

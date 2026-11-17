@@ -49,6 +49,7 @@
 
 <script setup lang="ts">
 import { useRegulation, type RegulationData } from '~/composables/useRegulation'
+import { siteConfig } from '~~/config/site.config'
 
 definePageMeta({
   layout: 'minimal'
@@ -62,28 +63,30 @@ const printTimestamp = ref('')
 const { data: rawData, pending, error } = await useRegulation(id)
 const regulation = computed(() => rawData.value as RegulationData | null)
 
+const regulationSystemName = siteConfig.regulationSystemName
+
 // 用於觸發瀏覽器列印 (僅在 Client 端執行)
 function doPrint() {
   window.print()
 }
 
 onMounted(() => {
-  // 只有在瀏覽器端才計算當下時間
+  // 只有在瀏覽器端使用本機之當下時間來計算，避免 SSR 與 client 時區不一致造成 hydration 警告
   const now = new Date()
   const y = now.getFullYear()
   const m = (now.getMonth() + 1).toString().padStart(2, '0')
   const d = now.getDate().toString().padStart(2, '0')
   const h = now.getHours().toString().padStart(2, '0')
   const min = now.getMinutes().toString().padStart(2, '0')
-  printTimestamp.value = `臺北大學學生議會法規系統 ${y}/${m}/${d} ${h}:${min} 列印`
+  printTimestamp.value = `${regulationSystemName} ${y}/${m}/${d} ${h}:${min} 列印`
 })
 
 useHead({
   // 使用 computed getter 確保 title 隨資料更新
   title: () =>
     regulation.value
-      ? `列印「${regulation.value.titleShort}」 - 臺北大學學生議會法規系統`
-      : '載入中 - 臺北大學學生議會法規系統'
+      ? `列印「${regulation.value.titleShort}」 - ${regulationSystemName}`
+      : `載入中 - ${regulationSystemName}`
 })
 </script>
 

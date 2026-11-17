@@ -1,11 +1,11 @@
 # 帳號、角色與權限
 
-LegiHub 以 Google 帳號登入，可登入的帳號、各帳號的角色、各項功能開放給哪些角色，**只定義於 [`server/utils/whitelist.ts`](../server/utils/whitelist.ts)**。前端不另外維護白名單，只讀取伺服器計算後放進 session 的結果。
+GovCloud 以 Google 帳號登入，可登入的帳號、各帳號的角色、各項功能開放給哪些角色，**只定義於 [`server/utils/whitelist.ts`](../server/utils/whitelist.ts)**。前端不另外維護白名單，只讀取伺服器計算後放進 session 的結果。
 
 ## 名詞
 
 - **帳號**：准許登入的 Google 帳號，附有單位簡稱（`shortName`）與一或多個角色。單位簡稱會顯示在側欄，也會註記在 legislative-data 的同步紀錄中。
-- **角色**：例如 `sx-congress`（學生議會（三峽校區））、`court`（學生法院）、`secretariat`（總會秘書處）。
+- **角色**：例如 `sx-congress`（學生議會（三峽校區））、`court`（學生法院）、`secretariat`（總會秘書處）。這些是學生自治會下的各機關，與系統本身的組織名稱（定義於 [`config/site.config.ts`](../config/site.config.ts) 的 `orgName`）不同。
 - **功能權限**：例如 `drafting`（議事文件草擬）、`sync:bills`（手動同步議案）。功能清單定義於 [`shared/utils/permissions.ts`](../shared/utils/permissions.ts)，該檔只列出有哪些功能，不寫哪些角色可以用。
 
 ## 常見維護作業
@@ -27,7 +27,7 @@ NUXT_ADMINS=[{"email":"admin1@example.com","nickname":"阿珍"},{"email":"admin2
 ```
 
 - 格式為 JSON 陣列，每筆需有 `email` 與 `nickname`。格式錯誤時，系統一律視為沒有管理員，並於 log 記錄錯誤（不記錄 email）。
-- 管理員的單位簡稱顯示為「管理員（暱稱）」。觸發同步時，legislative-data 的同步紀錄會註記「由「管理員（阿珍）」透過「NTPUSCS Legislative Hub」的 API 觸發」。**暱稱會出現在公開的 commit 紀錄中，email 則不會。**
+- 管理員的單位簡稱顯示為「管理員（暱稱）」。觸發同步時，legislative-data 的同步紀錄會註記「由「管理員（阿珍）」透過「NTPUSU Governance Cloud」的 API 觸發」。**暱稱會出現在公開的 commit 紀錄中，email 則不會。**
 - 修改環境變數後，需重新部署才會生效。
 
 ## 運作方式

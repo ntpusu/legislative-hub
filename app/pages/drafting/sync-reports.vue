@@ -30,7 +30,8 @@ const { repo, workflowNameReports } = config.public.legiDataSource
     <p>前次同步時間：【功能待補】。</p>
     <p>
       系統每日凌晨2時30分，從 Google Sheets
-      同步委員會建議事項（含定稿報告、學生會回覆）到 LegiHub (這裡)
+      同步委員會建議事項（含定稿報告、學生會回覆）到
+      {{ config.shortName }} (這裡)
       一次。如果秘書處剛維護資料、需要立刻使用，請點選下方按鈕以手動同步。
     </p>
 

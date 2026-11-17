@@ -6,7 +6,7 @@ import { siteConfig } from './config/site.config'
 export default defineNuxtConfig({
   compatibilityDate: '2026-06-01',
   future: {
-      compatibilityVersion: 4,
+    compatibilityVersion: 4
   },
   devtools: {
     enabled: process.env.NODE_ENV === 'development'
@@ -23,7 +23,8 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'zh-Hant-TW' },
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { charset: 'utf-8' }
+        { charset: 'utf-8' },
+        { name: 'description', content: siteConfig.description }
       ],
       noscript: [{ textContent: 'JavaScript is required' }],
       link: [

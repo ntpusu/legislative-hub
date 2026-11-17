@@ -4,7 +4,7 @@
 
 ## 系統整體運作架構
 
-現行法規系統由 Google Drive 共編資料夾 + [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) + 本專案 + [Sync Plugin](https://github.com/ntpusu/regulation-sync-plugin) + WordPress 會網等五個系統組成。整體運作方式可參閱 [README](../README.md) 文件。
+現行法規系統由 Google Drive 共編資料夾 + [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) + 本專案 (GovCloud) + [Sync Plugin](https://github.com/ntpusu/regulation-sync-plugin) + WordPress 會網等五個系統組成。整體運作方式可參閱 [README](../README.md) 文件。
 
 ## 壹、法規文字檔維護：完全透過 Google Drive 操作
 
@@ -14,7 +14,7 @@
 
 在資料夾中，會有多個貴機關主管之法規文字檔（以下亦稱法規檔）。
 
-法規檔名使用特定的四位數字。基本上，第一位數字代表機關，第二位數字代表法規粗分類，第三、四位數為流水號（但第二至四位數，只要不重複，貴機關可自行編列）。 **一部法規只會有一個 ID，且不可重複** ，如忘記編號對應到哪部法規，可[點此查看](https://raw.githubusercontent.com/ntpusu/legislative-data/refs/heads/main/data/bylaw-list.json)（按 Ctrl+F 可快速搜尋），或登入 LegiHub 後，點選左側選單「法規系統」再點「取得各式檔案」，該頁面就會列出。
+法規檔名使用特定的四位數字。基本上，第一位數字代表機關，第二位數字代表法規粗分類，第三、四位數為流水號（但第二至四位數，只要不重複，貴機關可自行編列）。 **一部法規只會有一個 ID，且不可重複** ，如忘記編號對應到哪部法規，可[點此查看](https://raw.githubusercontent.com/ntpusu/legislative-data/refs/heads/main/data/bylaw-list.json)（按 Ctrl+F 可快速搜尋），或登入 GovCloud 後，點選左側選單「法規系統」再點「取得各式檔案」，該頁面就會列出。
 
 法規使用 TXT 格式儲存，請確保副檔名是 `.txt` 。您可以使用 Windows 系統內建之「記事本」軟體來開啟。
 
@@ -84,21 +84,21 @@ history:
 
 ## 貳、同步法規到 Legislative Database
 
-簡單來說，儘管法規系統基本上是在本專案 (LegiHub) 操作，但本系統的資料是儲存在 [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) 專案。
+簡單來說，儘管法規系統基本上是在本專案 (GovCloud) 操作，但本系統的資料是儲存在 [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) 專案。
 
 程式約每天凌晨 2 至 4 時間，會自動從 Google Drive 同步法規檔案到該專案儲存庫，順便當作備份。因此，請避免在該段時間內，於 Google Drive 操作法規維護。
 
-如果您上傳新法規後，需要立刻使用，而不方便等到系統自動同步，可透過本 LegiHub 專案，手動即時同步，其操作方式如下：
+如果您上傳新法規後，需要立刻使用，而不方便等到系統自動同步，可透過本 GovCloud 專案，手動即時同步，其操作方式如下：
 
-首先，LegiHub 專案需要以各單位官方 Google 帳號登入，如果有換帳號請務必通知維護人員。
+首先，GovCloud 專案需要以各單位官方 Google 帳號登入，如果有換帳號請務必通知維護人員。
 
 登入後，請點選左側選單「法規系統」再點「同步法規」，進入後點選中間藍色按鈕。
 
 如果沒問題，系統應該會顯示一行帶有打勾 emoji 的文字說明，約 1 到 3 分鐘後，即同步完成（該則文字說明有個「執行情形請到 GitHub Actions 頁面查看」連結，點選可查看進度）。
 
-## 參、在 LegiHub 取得各式法規檔案
+## 參、在 GovCloud 取得各式法規檔案
 
-法規資料同步後，使用者可在本 LegiHub 專案：
+法規資料同步後，使用者可在本 GovCloud 專案：
 
 - 預覽會網上專門為了瀏覽法規設計的樣式（下稱會網樣式）、
 - 下載修正條文對照表空白表格 DOCX 檔、
@@ -127,7 +127,7 @@ history:
 
 ### 方式二：手動嵌入原始碼
 
-首先，依照【參、在 LegiHub 取得各式法規檔案】的說明，從 LegiHub 複製會網樣式原始碼。
+首先，依照【參、在 GovCloud 取得各式法規檔案】的說明，從 GovCloud 複製會網樣式原始碼。
 
 接著，到會網對應之文章，把所有區塊清除後，新增一個自訂 HTML 區塊，並將原始碼貼上。
 

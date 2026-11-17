@@ -1,10 +1,36 @@
 // config/site.config.ts
+// 本專案的名稱、組織與相關文案的唯一定義處。
+// 其他地方（nuxt.config.ts、app/、server/、docs/）一律引用此處，
+// 避免未來更名時需要四處修改。
+const orgName = '國立臺北大學學生自治會'
+const orgShortName = '北大學生會'
+
 export const siteConfig = {
-  name: 'NTPUSCS Legislative Hub',
-  shortName: 'LegiHub',
-  orgName: '國立臺北大學學生議會（三峽校區）',
-  orgNameEn: 'NTPU Student Congress (Sanxia)',
+  // ── 名稱 ─────────────────────────────────────────────
+  name: 'NTPUSU Governance Cloud',
+  shortName: 'GovCloud',
+  /** 一句話說明本系統的定位，用於頁尾等處 */
+  tagline: '讓自治，更方便',
+  /** 網站描述的預設值，用於 meta description */
+  description:
+    '國立臺北大學學生自治會治理雲端系統：維護學生代表名冊及法規等線上公開資訊。',
+
+  // ── 組織 ─────────────────────────────────────────────
+  orgName,
+  orgNameEn: 'NTPU Student Union',
+  /** 組織名稱的簡稱，用於組成其他文案（例如「學生自治會法規系統」） */
+  orgShortName,
   orgUrl: 'https://cloud.ntpusu.org/',
+
+  // ── 其他 ─────────────────────────────────────────────
+  /** GitHub 儲存庫網址 */
   repoUrl: 'https://github.com/ntpusu/legislative-hub',
-  copyright: '國立臺北大學學生議會（三峽校區）'
+  /** 頁尾版權所有者 */
+  copyright: orgName,
+  /** 系統開始運作之年分，用於頁尾版權年份 */
+  sinceYear: 2026,
+
+  // ── 頁面文案用的複合字串 ─────────────────────────────
+  /** 例如「北大學生會法規系統」，用於列印頁與頁面標題 */
+  regulationSystemName: `${orgShortName}法規系統`
 } as const

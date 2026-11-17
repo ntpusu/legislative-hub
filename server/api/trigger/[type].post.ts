@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
       Accept: 'application/vnd.github+json',
       'X-GitHub-Api-Version': '2022-11-28',
       'Content-Type': 'application/json',
-      'User-Agent': siteInfo.name || 'legihub-app'
+      'User-Agent': siteInfo.name || siteInfo.shortName || 'govcloud-app'
     },
     body: JSON.stringify({
       event_type: `refresh-${type}`,

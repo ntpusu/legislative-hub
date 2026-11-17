@@ -29,7 +29,7 @@ async function trigger() {
     <h1>法規同步</h1>
     <p>前次同步時間（簡稱清單更新時間）：【功能待補】。</p>
     <p>
-      系統每日凌晨2時，從 Google Drive 同步到 LegiHub (這裡)
+      系統每日凌晨2時，從 Google Drive 同步到 {{ config.shortName }} (這裡)
       一次，如果您剛上傳檔案、需要立刻使用，請點選下方按鈕以手動同步。
     </p>
 

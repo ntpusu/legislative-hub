@@ -15,7 +15,7 @@
     <article>
       <h3 style="font-size: 1.5rem">手動同步</h3>
       <p>
-        系統每天早上6點會從 Google Sheets 同步到 LegiHub (這裡)
+        系統每天早上6點會從 Google Sheets 同步到 {{ shortName }} (這裡)
         一次。如果您剛更新試算表、需要立即對外展示，也可點選下方按鈕，手動同步。
       </p>
       <button
@@ -143,21 +143,25 @@ definePageMeta({
   layout: 'congress'
 })
 
+const config = useRuntimeConfig()
+const siteInfo = config.public
+const { repo, workflowNameReps } = config.public.legiDataSource
+
 useHead({
   title: '學生代表名冊',
   meta: [
     {
       name: 'description',
-      content: '國立臺北大學學生自治會推派至各項校務會議的學生代表名冊'
+      content: `${siteInfo.orgName}推派至各項校務會議的學生代表名冊`
     }
   ]
 })
 
-const config = useRuntimeConfig()
-const { repo, workflowNameReps } = config.public.legiDataSource
-
 const { data, loading, error, fetchData, getMeetingsWithReps } =
   useStudentRepresentatives()
+
+// 「同步到 GovCloud」文案使用的系統簡稱
+const shortName = siteInfo.shortName
 
 const status = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const errorMsg = ref('')

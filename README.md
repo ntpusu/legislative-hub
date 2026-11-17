@@ -1,16 +1,18 @@
-# NTPUSCS Legislative Hub
+# NTPUSU Governance Cloud
 
 ## 專案介紹
 
-NTPUSCS Legislative Hub (LegiHub) 提供國立臺北大學學生自治會各單位維護、使用法規資料。
+NTPUSU Governance Cloud (GovCloud) 是[臺北大學學生自治會](https://github.com/ntpusu)內部用來維護法規等公開資料的專案。
 
 ## 系統整體運作說明
+
+> 系統名稱、組織名稱與相關文案集中定義於 [`config/site.config.ts`](config/site.config.ts)，程式與文件中一律引用之，避免日後更名時需要四處修改。
 
 ### 法規
 
 1. 使用者（透過各機關 Google 帳號）在 Google Drive 維護法規檔。
 2. 另一專案 [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) 從 Google Drive 同步法規檔案到該專案儲存庫，順便當作備份。
-3. 法規資料同步後，使用者可在本 LegiHub 專案：
+3. 法規資料同步後，使用者可在本 GovCloud 專案：
   - 預覽[會網](https://ntpusu.org)上專門為了瀏覽法規設計的樣式（下稱會網樣式）、
   - 下載修正條文對照表空白表格 DOCX 檔、
   - 列印符合《中央法規標準法》的公告版 PDF 檔，或
@@ -22,7 +24,6 @@ NTPUSCS Legislative Hub (LegiHub) 提供國立臺北大學學生自治會各單�
 ## 🗂️ 未來規劃
 
 * [ ] 加入法規之歷史版本功能
-* [ ] 整併三峽校區學生議會秘書處人員草擬議事文件之功能
 
 本專案仍在發展，歡迎有興趣的同學參與開發、測試與討論：
 
@@ -33,7 +34,7 @@ NTPUSCS Legislative Hub (LegiHub) 提供國立臺北大學學生自治會各單�
 
 ## 版本沿革
 
-v1.0：112 學年度會網開始建置、113 學年度正式上線以來，法規的詮釋資料 (metadata) 與全文內容分開維護，前者完全使用會網，後者則需要使用我們的[第 1 版工具](https://github.com/robertgelb/ntpusu-regulation-typesetting)處理。
+v1.0：112 學年度會網開始建置、113 學年度正式上線以來，法規的詮釋資料 (metadata) 與全文內容分開維護，前者完全使用會網，後者則需要使用我們的[第 1 版工具](https://github.com/ntpusu/ntpusu-regulation-typesetting)處理。
 
 v2.0：113 學年度第 2 學期，工作團隊開始嘗試統合二者。
 
@@ -48,3 +49,5 @@ v3.0：本系統加入身分驗證功能，完全內部化；全面改用 Pico C
 v3.1：資料之儲存、維護，獨立建置 [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) 儲存庫，本專案僅負責前後端邏輯。
 
 v3.2：加入了手動觸發資料更新工作流的功能。
+
+v3.3：配合三峽校區學生議會啟用[三代議事服務系統](https://github.com/ntpuscs/Parliamentspage)，本專案更名「NTPUSU Governance Cloud（GovCloud）」，服務範圍集中於學生自治會共用之內容。
