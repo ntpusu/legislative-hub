@@ -114,3 +114,35 @@
   ):not(.outline, .secondary, .contrast)::before {
   filter: brightness(0);
 }
+
+/* ── 無障礙共用樣式 ─────────────────────────────────────── */
+
+/* 僅供螢幕報讀軟體讀取、畫面上不顯示的文字 */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* 「跳至主要內容」連結（WCAG 2.4.1）：平時隱藏，取得焦點時顯示於左上角 */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  padding: 0.75rem 1rem;
+  background: var(--pico-primary-background);
+  color: var(--pico-primary-inverse);
+  font-weight: bold;
+  transform: translateY(-100%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}

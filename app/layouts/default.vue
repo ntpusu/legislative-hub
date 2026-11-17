@@ -1,8 +1,10 @@
 <!-- app/layouts/default.vue -->
 <template>
   <div>
+    <a class="skip-link" href="#main-content">跳至主要內容</a>
+
     <header class="container">
-      <nav>
+      <nav aria-label="主選單">
         <ul>
           <li>
             <NuxtLink to="/" class="contrast">
@@ -28,7 +30,7 @@
       </nav>
     </header>
 
-    <main class="container">
+    <main id="main-content" class="container" tabindex="-1">
       <slot />
     </main>
   </div>
@@ -52,4 +54,8 @@ function toggleMode() {
 <!-- 非 scoped 好讓 Blades 樣式全域生效 -->
 <style>
 @import '@/assets/css/main.css';
+
+#main-content:focus {
+  outline: none;
+}
 </style>

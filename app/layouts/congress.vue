@@ -19,6 +19,11 @@ const router = useRouter()
 const currentYear = new Date().getFullYear()
 
 const isMobileMenuOpen = ref(false)
+const route = useRoute()
+
+/** 側欄中包含目前頁面的分類預設展開，讓使用者知道自己位於何處（WCAG 2.4.8） */
+const isCurrentSection = (item: { children: { href: string }[] }) =>
+  item.children.some((sub) => sub.href === route.path)
 
 // ----------------------------------------------------------------
 // 登出確認 Dialog 狀態
@@ -82,6 +87,8 @@ const toggleTheme = () => {
 
 <template>
   <div class="app-layout">
+    <a class="skip-link" href="#main-content">跳至主要內容</a>
+
     <!-- ── Toast 通知 ─────────────────────────────────────── -->
     <Transition name="toast">
       <div
@@ -115,27 +122,21 @@ const toggleTheme = () => {
 
     <!-- ── 手機版頂部 Header ───────────────────────────────── -->
     <header class="mobile-header container-fluid">
-      <nav>
-        <ul>
-          <li>
-            <button
-              class="outline contrast"
-              aria-label="開啟選單"
-              @click="isMobileMenuOpen = true"
-            >
-              <Menu :size="20" />
-            </button>
-          </li>
-          <li>
-            <strong>{{ config.name }}</strong>
-          </li>
-        </ul>
-      </nav>
+      <div class="mobile-bar">
+        <button
+          class="outline contrast"
+          aria-label="開啟選單"
+          @click="isMobileMenuOpen = true"
+        >
+          <Menu :size="20" />
+        </button>
+        <strong>{{ config.name }}</strong>
+      </div>
     </header>
 
     <div class="layout-wrapper container-fluid">
       <aside :class="{ open: isMobileMenuOpen }" class="sidebar">
-        <nav>
+        <nav aria-label="主選單">
           <ul>
             <li class="sidebar-header">
               <div class="sidebar-title">
@@ -171,11 +172,13 @@ const toggleTheme = () => {
                 </ul>
               </details>
             </li>
+          </ul>
 
-            <li role="separator"><hr /></li>
+          <hr />
 
+          <ul>
             <li v-for="item in siteNavigation" :key="item.name">
-              <details>
+              <details :open="isCurrentSection(item)">
                 <summary>
                   <span class="icon-text">
                     <component :is="item.icon" :size="18" />
@@ -229,8 +232,10 @@ const toggleTheme = () => {
         </nav>
       </aside>
 
-      <main class="content">
-        <slot />
+      <div class="content">
+        <main id="main-content" tabindex="-1">
+          <slot />
+        </main>
 
         <footer class="main-footer">
           <hr />
@@ -247,7 +252,7 @@ const toggleTheme = () => {
             </small>
           </p>
         </footer>
-      </main>
+      </div>
     </div>
   </div>
 </template>
@@ -317,6 +322,23 @@ const toggleTheme = () => {
 .sidebar-footer {
   margin-top: auto;
   padding-top: 1rem;
+}
+
+.mobile-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 0.5rem;
+}
+
+/* 略過導覽連結的目標：程式化聚焦時不需要外框 */
+#main-content:focus {
+  outline: none;
+}
+
+/* 目前頁面除了顏色外再以粗體標示，不單靠顏色傳達資訊（WCAG 1.4.1） */
+.sidebar a[aria-current='page'] {
+  font-weight: bold;
 }
 
 .mobile-header {
