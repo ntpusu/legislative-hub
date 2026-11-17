@@ -46,7 +46,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
     '@nuxtjs/color-mode',
-    '@nuxt/icon',
     'nuxt-auth-utils'
   ],
 
