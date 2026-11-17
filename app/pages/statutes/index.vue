@@ -242,7 +242,7 @@ const handleCopyHtml = async () => {
             role="button"
             class="outline"
           >
-            列印法規
+            列印法規<NewTabHint />
           </NuxtLink>
           <button
             @click="handleDownloadDocx"
@@ -262,7 +262,7 @@ const handleCopyHtml = async () => {
             role="button"
             class="secondary outline"
           >
-            網頁預覽
+            網頁預覽<NewTabHint />
           </NuxtLink>
           <button
             @click="handleCopyHtml"

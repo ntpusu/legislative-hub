@@ -31,8 +31,9 @@
         <a
           :href="`https://github.com/${repo}/actions/workflows/${workflowNameReps}`"
           target="_blank"
-          >GitHub Actions</a
-        >
+          rel="noopener noreferrer"
+          >GitHub Actions<NewTabHint
+        /></a>
         頁面查看）。
       </p>
       <p v-if="status === 'error'">

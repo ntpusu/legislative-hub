@@ -28,7 +28,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {{ meeting.department }}
+                {{ meeting.department }}<NewTabHint />
               </a>
               <span v-else>{{ meeting.department }}</span>
             </p>
@@ -44,7 +44,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                查看會議資料
+                查看會議資料<NewTabHint />
               </a>
               <span v-else style="color: var(--pico-muted-color)">非公開</span>
             </p>

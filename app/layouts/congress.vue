@@ -306,7 +306,13 @@ const toggleTheme = () => {
               >
               <br />
               <span class="footer-meta">
-                <a :href="`${config.repoUrl}`" target="_blank">Open Source</a>
+                <!-- 連結文字單獨閱讀也能理解目的（WCAG 2.4.9） -->
+                <a
+                  :href="`${config.repoUrl}`"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >本系統原始碼（GitHub）<NewTabHint
+                /></a>
               </span>
             </small>
           </p>
