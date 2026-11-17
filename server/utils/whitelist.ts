@@ -66,9 +66,6 @@ const ALL_ROLES: readonly Role[] = ROLE_IDS
 
 // 各項功能開放給哪些角色使用
 const PERMISSION_ROLES: Record<Permission, readonly Role[]> = {
-  drafting: ['sx-congress'],
-  'sync:bills': ['sx-congress'],
-  'sync:committee-reports': ['sx-congress'],
   'sync:statutes': ALL_ROLES,
   'sync:representatives': ALL_ROLES
 }

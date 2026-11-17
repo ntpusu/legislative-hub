@@ -75,8 +75,6 @@ export default defineNuxtConfig({
         listPath: 'data/bylaw-list.json',
 
         workflowBasePath: '.github/workflows',
-        workflowNameReports: 'fetch-committee-reports.yml',
-        workflowNameBills: 'fetch-bills.yml',
         workflowNameStatutes: 'fetch-bylaws.yml',
         workflowNameReps: 'fetch-representatives.yml',
         repsDataPath: 'data/representatives.json'

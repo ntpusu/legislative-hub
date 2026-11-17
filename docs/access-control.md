@@ -6,7 +6,7 @@ GovCloud 以 Google 帳號登入，可登入的帳號、各帳號的角色、各
 
 - **帳號**：准許登入的 Google 帳號，附有單位簡稱（`shortName`）與一或多個角色。單位簡稱會顯示在側欄，也會註記在 legislative-data 的同步紀錄中。
 - **角色**：例如 `sx-congress`（學生議會（三峽校區））、`court`（學生法院）、`secretariat`（總會秘書處）。這些是學生自治會下的各機關，與系統本身的組織名稱（定義於 [`config/site.config.ts`](../config/site.config.ts) 的 `orgName`）不同。
-- **功能權限**：例如 `drafting`（議事文件草擬）、`sync:bills`（手動同步議案）。功能清單定義於 [`shared/utils/permissions.ts`](../shared/utils/permissions.ts)，該檔只列出有哪些功能，不寫哪些角色可以用。
+- **功能權限**：例如 `sync:statutes`（手動同步自治法規）、`sync:representatives`（手動同步學生代表名冊）。功能清單定義於 [`shared/utils/permissions.ts`](../shared/utils/permissions.ts)，該檔只列出有哪些功能，不寫哪些角色可以用。
 
 ## 常見維護作業
 

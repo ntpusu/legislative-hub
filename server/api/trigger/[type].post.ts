@@ -1,11 +1,6 @@
 // server/api/trigger/[type].post.ts
 
-const ALLOWED_TYPES = [
-  'bills',
-  'statutes',
-  'committee-reports',
-  'representatives'
-] as const
+const ALLOWED_TYPES = ['statutes', 'representatives'] as const
 type TriggerType = (typeof ALLOWED_TYPES)[number]
 
 const isTriggerType = (value: unknown): value is TriggerType =>

@@ -28,28 +28,6 @@ export const siteNavigation: {
     ]
   },
   {
-    name: '議事文件草擬',
-    icon: FileText,
-    children: [
-      {
-        name: '同步議案',
-        href: '/drafting/sync-bills',
-        permission: 'sync:bills'
-      },
-      {
-        name: '同步委員會報告',
-        href: '/drafting/sync-reports',
-        permission: 'sync:committee-reports'
-      },
-      { name: '草擬議程', href: '/drafting/agenda', permission: 'drafting' },
-      {
-        name: '草擬會議紀錄',
-        href: '/drafting/minutes',
-        permission: 'drafting'
-      }
-    ]
-  },
-  {
     name: '參與校務',
     icon: Speech,
     children: [
