@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { generateAndDownloadDocx } from '../../../utils/statutesAmendTableGenerator'
-import { copyHtmlSourceToClipboard } from '../../../utils/statutesHtmlGenerator'
 
 definePageMeta({
   layout: 'congress'
@@ -20,7 +19,6 @@ let lastFocused: HTMLElement | null = null
 
 // 載入狀態防護
 const isGeneratingDocx = ref(false)
-const isCopyingHtml = ref(false)
 
 // -- 取得、處理資料 --
 
@@ -136,36 +134,6 @@ const handleDownloadDocx = async () => {
     isGeneratingDocx.value = false
   }
 }
-
-const handleCopyHtml = async () => {
-  if (!currentLaw.value) return
-  isCopyingHtml.value = true
-  try {
-    const response: any = await $fetch(
-      `/api/statutes/single/${currentLaw.value.id}`
-    )
-
-    console.log('HTML - API 原始回傳內容:', response)
-
-    const regData =
-      response.data || response.statute || response.body || response
-
-    if (!regData || !regData.titleFull) {
-      throw new Error(
-        'API 資料結構不符預期，找不到 titleFull 欄位。請開啟 F12 主控台確認實際資料格式'
-      )
-    }
-
-    await copyHtmlSourceToClipboard(regData)
-  } catch (err: any) {
-    console.error('複製 HTML 失敗細節:', err)
-    alert(
-      `獲取原始碼失敗：${err.message || '未知錯誤'}。詳細資訊請按 F12 查看主控台。`
-    )
-  } finally {
-    isCopyingHtml.value = false
-  }
-}
 </script>
 
 <template>
@@ -261,23 +229,14 @@ const handleCopyHtml = async () => {
 
         <hr />
 
-        <div class="grid">
-          <NuxtLink
-            :to="`/statutes/${currentLaw?.id}/preview`"
-            target="_blank"
-            role="button"
-            class="secondary outline"
-          >
-            網頁預覽<NewTabHint />
-          </NuxtLink>
-          <button
-            @click="handleCopyHtml"
-            :aria-busy="isCopyingHtml"
-            class="secondary outline"
-          >
-            {{ isCopyingHtml ? '處理中...' : '複製 HTML 原始碼' }}
-          </button>
-        </div>
+        <NuxtLink
+          :to="`/statutes/${currentLaw?.id}/preview`"
+          target="_blank"
+          role="button"
+          class="secondary outline full-width"
+        >
+          網頁預覽、貼到 RPage 會網<NewTabHint />
+        </NuxtLink>
 
         <footer>注意：立法文件請小心保管，注意使用。</footer>
       </article>
@@ -311,6 +270,12 @@ const handleCopyHtml = async () => {
   display: block;
   width: 100%;
   padding-block: 0.625rem;
+}
+
+/* 彈窗中單獨一列的按鈕 */
+.full-width {
+  display: block;
+  width: 100%;
 }
 
 /* 使用 auto-fill 設定最小寬度 320px，讓卡片在寬度不足時自動換行，不會變得太窄 */

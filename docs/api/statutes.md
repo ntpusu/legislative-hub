@@ -17,14 +17,7 @@
 ]
 ```
 
-依本會暫定法規編號格式，代碼第一碼代表主管機關，API 不回傳主管機關資訊，請自行依以下邏輯判讀：
-
-- `1`：三峽校區學生會
-- `2`：三峽校區學生議會
-- `3`：學生法院
-- `4`：臺北校區
-- `5`：臺北校區
-- `6`：總會
+依本會暫定法規編號格式，代碼第一碼代表主管機關，API 不回傳主管機關資訊。對照表定義於 [`config/site.config.ts`](../../config/site.config.ts) 的 `statuteAuthorities`（其值即會網 RPage「負責單位」欄位的寫法），判讀函式為 `shared/utils/rpage.ts` 的 `resolveStatuteAuthority()`。
 
 ## statutes/single/:id
 

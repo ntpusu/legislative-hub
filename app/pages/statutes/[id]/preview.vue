@@ -1,16 +1,5 @@
 <script setup lang="ts">
-import { useStatute } from '~/composables/useStatute'
-
-// 1. 宣告介面 (Interface)，明確告訴 TypeScript 這包資料有哪些欄位
-interface StatuteData {
-  titleFull: string
-  titleShort?: string
-  status?: string
-  modifiedType?: string
-  modifiedDate?: string
-  fullText: string
-  history?: string[]
-}
+import { useStatute, type StatuteData } from '~/composables/useStatute'
 
 definePageMeta({
   layout: 'congress'
@@ -18,12 +7,10 @@ definePageMeta({
 
 const route = useRoute()
 const id = route.params.id as string
+const paddedId = id.padStart(4, '0')
 
-// 2. 呼叫 composable，先將拿到的資料暫名為 rawData
 const { data: rawData, pending, error } = await useStatute(id)
 
-// 3. 建立一個具備強型別的 computed 變數 statute
-// 透過 "as StatuteData" 告訴 TypeScript：「相信我，它就是長這個樣子」
 const statute = computed(() => rawData.value as StatuteData | null)
 
 useHead({
@@ -48,7 +35,9 @@ useHead({
         <hgroup>
           <h1>{{ statute.titleFull }}</h1>
           <p>
-            {{ statute.modifiedType }}日期：{{ statute.modifiedDate }}
+            法規代碼 {{ paddedId }}｜{{ statute.modifiedType }}日期：{{
+              statute.modifiedDate
+            }}
             <strong v-if="statute.status === 'abandoned'" class="abandoned"
               >(廢止)</strong
             >
@@ -73,11 +62,13 @@ useHead({
         </details>
       </footer>
     </article>
+
+    <RpageCopyPanel v-if="statute" :view="statute" :statute-id="paddedId" />
   </div>
 </template>
 
 <style scoped>
-/* 確保法規內容在 Pico CSS 下有正確的間距 */
+/* 法規內容與標頭之間的間距 */
 section {
   margin-top: 2rem;
 }
