@@ -197,16 +197,33 @@ const toggleTheme = () => {
 
           <ul class="sidebar-footer">
             <li>
-              <button
-                @click="toggleTheme"
-                class="theme-toggle outline contrast"
-              >
-                <span class="icon-text">
-                  <Sun v-if="colorMode.value === 'dark'" :size="18" />
-                  <Moon v-else :size="18" />
-                  {{ colorMode.value === 'dark' ? '亮色模式' : '暗色模式' }}
-                </span>
-              </button>
+              <!--
+                伺服器端無法得知使用者的主題偏好，colorMode.value 一律為 fallback 值，
+                若直接渲染會與客戶端結果不一致（hydration mismatch），故改於客戶端渲染。
+                fallback 為等高的隱形佔位，避免載入後版面跳動。
+              -->
+              <ClientOnly>
+                <button
+                  @click="toggleTheme"
+                  class="theme-toggle outline contrast"
+                >
+                  <span class="icon-text">
+                    <Sun v-if="colorMode.value === 'dark'" :size="18" />
+                    <Moon v-else :size="18" />
+                    {{ colorMode.value === 'dark' ? '亮色模式' : '暗色模式' }}
+                  </span>
+                </button>
+                <template #fallback>
+                  <button
+                    class="theme-toggle outline contrast"
+                    style="visibility: hidden"
+                    tabindex="-1"
+                    aria-hidden="true"
+                  >
+                    &nbsp;
+                  </button>
+                </template>
+              </ClientOnly>
             </li>
           </ul>
         </nav>

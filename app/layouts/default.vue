@@ -12,14 +12,17 @@
         </ul>
         <ul>
           <li>
-            <button
-              class="outline contrast"
-              aria-label="切換亮色或暗色背景"
-              @click="toggleMode"
-            >
-              <Sun v-if="colorMode.value === 'dark'" :size="20" />
-              <Moon v-else :size="20" />
-            </button>
+            <!-- 主題偏好只有客戶端知道，於客戶端渲染以避免 hydration mismatch -->
+            <ClientOnly>
+              <button
+                class="outline contrast"
+                aria-label="切換亮色或暗色背景"
+                @click="toggleMode"
+              >
+                <Sun v-if="colorMode.value === 'dark'" :size="20" />
+                <Moon v-else :size="20" />
+              </button>
+            </ClientOnly>
           </li>
         </ul>
       </nav>
