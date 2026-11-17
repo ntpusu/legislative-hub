@@ -276,7 +276,7 @@ const toggleTheme = () => {
   font-size: 1.25rem;
 }
 
-/* 圖示與文字並排（取代原 Tailwind 的 inline / mr-2 / ml-2） */
+/* 圖示與文字並排 */
 .icon-text {
   display: inline-flex;
   align-items: center;

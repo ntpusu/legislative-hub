@@ -45,14 +45,12 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/image',
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxt/icon',
     'nuxt-auth-utils'
   ],
 
   colorMode: {
-    classSuffix: '', // Tailwind: 讓 Tailwind 的 dark: class 直接生效
     dataValue: 'theme', // blades.css: 對應  [data-theme]
     preference: 'system',
     fallback: 'light' // 當偵測不到時的預設值

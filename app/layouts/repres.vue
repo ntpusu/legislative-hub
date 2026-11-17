@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-// 將變數命名為 colorModeBs5 以避免與全域 Tailwind 設定混淆
+// 將變數命名為 colorModeBs5，以區分此處專供 Bootstrap 使用的主題狀態
 const colorModeBs5 = useColorMode()
 </script>
 
