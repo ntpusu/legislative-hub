@@ -145,6 +145,10 @@ const handleDownloadDocx = async () => {
           以下依照主管部門列出自治法規（statutes）。點擊法規名稱後，可以進一步操作（列印公告版、下載空白對照表
           Word 檔等）。
         </p>
+        <p>
+          要排版新法規或修正草案，請使用
+          <NuxtLink to="/statutes/typesetting">線上法規排版</NuxtLink>。
+        </p>
       </hgroup>
     </header>
 

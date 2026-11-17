@@ -24,7 +24,8 @@ export const siteNavigation: {
         href: '/statutes/sync',
         permission: 'sync:statutes'
       },
-      { name: '取得各式檔案', href: '/statutes' }
+      { name: '取得各式檔案', href: '/statutes' },
+      { name: '線上法規排版', href: '/statutes/typesetting' }
     ]
   },
   {
