@@ -19,7 +19,9 @@ NTPUSU Governance Cloud (GovCloud) 是[臺北大學學生自治會](https://gith
   - 複製會網樣式原始碼（如果下述第 4 點採取手動嵌入）。
 4. 此外，如果特定法規已經在 WordPress 會網設定 [Sync Plugin](https://github.com/ntpusu/regulation-sync-plugin)，則會網每天早上、下午會各自同步一次法規，並以會網樣式輸出。（使用者可透過本 WordPress 會網後台，手動同步；亦可透過後台編輯文章，手動嵌入會網樣式原始碼。）
 
-以上各步驟的詳細說明請參閱 [docs/bylaws-maintenance.md](docs/bylaws-maintenance.md)。
+以上各步驟的詳細說明請參閱 [docs/statutes-maintenance.md](docs/statutes-maintenance.md)。
+
+> 當前以 **statutes** 指涉自治法規，包含本會組織章程與自治法令兩種類型（組織章程第 61 條參照）。因此程式、路徑與 API 一律使用 `statutes`，不再使用 `regulation`／`bylaw` 等同義詞。
 
 ## 🗂️ 未來規劃
 

@@ -1,3 +1,6 @@
+// server/api/statutes/list.ts
+// 回傳自治法規清單。statutes 為自治法規之英譯，包含本會組織章程與自治法令
+// （組織章程第 61 條參照）。
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
   const { repo, branch, listPath } = config.public.legiDataSource
@@ -8,17 +11,17 @@ export default defineEventHandler(async (event) => {
     )
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch bylaw list: ${response.statusText}`)
+      throw new Error(`Failed to fetch statute list: ${response.statusText}`)
     }
 
-    const lawList = await response.json()
-    return lawList
+    const statuteList = await response.json()
+    return statuteList
   } catch (error) {
-    console.error('Error fetching bylaw list:', error)
+    console.error('Error fetching statute list:', error)
     // 可選：返回空陣列或拋出錯誤
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to fetch regulations'
+      statusMessage: 'Failed to fetch statutes'
     })
   }
 })

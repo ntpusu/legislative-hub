@@ -18,7 +18,7 @@ export const siteConfig = {
   // ── 組織 ─────────────────────────────────────────────
   orgName,
   orgNameEn: 'NTPU Student Union',
-  /** 組織名稱的簡稱，用於組成其他文案（例如「學生自治會法規系統」） */
+  /** 組織名稱的簡稱，用於組成其他文案（例如「北大學生會自治法規系統」） */
   orgShortName,
   orgUrl: 'https://cloud.ntpusu.org/',
 
@@ -31,6 +31,15 @@ export const siteConfig = {
   sinceYear: 2026,
 
   // ── 頁面文案用的複合字串 ─────────────────────────────
-  /** 例如「北大學生會法規系統」，用於列印頁與頁面標題 */
-  regulationSystemName: `${orgShortName}法規系統`
+  /** 例如「北大學生會自治法規系統」，用於列印頁與頁面標題 */
+  statuteSystemName: `${orgShortName}自治法規系統`
 } as const
+
+/**
+ * 「statutes」為自治法規之英譯，包含本會組織章程與自治法令
+ * （組織章程第 61 條參照）。
+ * 因此程式、路徑與 API 一律以 statutes 稱之，不再使用
+ * regulation／bylaw 等同義詞。
+ */
+export const statuteNamingNote =
+  '自治法規：包含本會組織章程與自治法令（自治法律、自治命令，組織章程第 61 條參照）。'

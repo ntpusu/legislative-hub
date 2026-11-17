@@ -16,11 +16,15 @@ export const siteNavigation: {
   children: NavigationItem[]
 }[] = [
   {
-    name: '法規系統',
+    name: '自治法規系統',
     icon: Gavel,
     children: [
-      { name: '同步法規', href: '/bylaws/sync', permission: 'sync:bylaws' },
-      { name: '取得各式檔案', href: '/bylaws' }
+      {
+        name: '同步自治法規',
+        href: '/statutes/sync',
+        permission: 'sync:statutes'
+      },
+      { name: '取得各式檔案', href: '/statutes' }
     ]
   },
   {

@@ -58,7 +58,7 @@ export default defineNuxtConfig({
     fallback: 'light' // 當偵測不到時的預設值
   },
 
-  css: ['@/assets/css/regulation-format.css'],
+  css: ['@/assets/css/statutes-format.css'],
 
   // 注入全域變數
   runtimeConfig: {
@@ -69,13 +69,15 @@ export default defineNuxtConfig({
         repo: 'ntpusu/legislative-data',
         branch: 'main',
 
-        basePath: 'data/bylaws', // 各法規文字檔案之路徑
+        // 以下路徑、工作流名稱屬於 NTPU Legislative Database 儲存庫的既有資源，
+        // 不在本專案更名範圍內；本專案僅將程式內的鍵名統一為 statutes。
+        basePath: 'data/bylaws', // 各自治法規文字檔案之路徑
         listPath: 'data/bylaw-list.json',
 
         workflowBasePath: '.github/workflows',
         workflowNameReports: 'fetch-committee-reports.yml',
         workflowNameBills: 'fetch-bills.yml',
-        workflowNameBylaws: 'fetch-bylaws.yml',
+        workflowNameStatutes: 'fetch-bylaws.yml',
         workflowNameReps: 'fetch-representatives.yml',
         repsDataPath: 'data/representatives.json'
       }

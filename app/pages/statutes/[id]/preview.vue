@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useRegulation } from '~/composables/useRegulation'
+import { useStatute } from '~/composables/useStatute'
 
 // 1. 宣告介面 (Interface)，明確告訴 TypeScript 這包資料有哪些欄位
-interface RegulationData {
+interface StatuteData {
   titleFull: string
   titleShort?: string
   status?: string
@@ -20,15 +20,14 @@ const route = useRoute()
 const id = route.params.id as string
 
 // 2. 呼叫 composable，先將拿到的資料暫名為 rawData
-const { data: rawData, pending, error } = await useRegulation(id)
+const { data: rawData, pending, error } = await useStatute(id)
 
-// 3. 建立一個具備強型別的 computed 變數 regulation
-// 透過 "as RegulationData" 告訴 TypeScript：「相信我，它就是長這個樣子」
-const regulation = computed(() => rawData.value as RegulationData | null)
+// 3. 建立一個具備強型別的 computed 變數 statute
+// 透過 "as StatuteData" 告訴 TypeScript：「相信我，它就是長這個樣子」
+const statute = computed(() => rawData.value as StatuteData | null)
 
 useHead({
-  title: () =>
-    regulation.value ? `${regulation.value.titleShort}` : '載入中...'
+  title: () => (statute.value ? `${statute.value.titleShort}` : '載入中...')
 })
 </script>
 
@@ -44,19 +43,19 @@ useHead({
       <pre><code>{{ error.message }}</code></pre>
     </article>
 
-    <article v-else-if="regulation">
+    <article v-else-if="statute">
       <header>
         <hgroup>
-          <h1>{{ regulation.titleFull }}</h1>
+          <h1>{{ statute.titleFull }}</h1>
           <p>
-            {{ regulation.modifiedType }}日期：{{ regulation.modifiedDate }}
-            <ins v-if="regulation.status === 'abandoned'">(廢止)</ins>
+            {{ statute.modifiedType }}日期：{{ statute.modifiedDate }}
+            <ins v-if="statute.status === 'abandoned'">(廢止)</ins>
           </p>
         </hgroup>
       </header>
 
       <section>
-        <div v-html="regulation.fullText"></div>
+        <div v-html="statute.fullText"></div>
       </section>
 
       <footer>
@@ -64,7 +63,7 @@ useHead({
           <summary>法規沿革</summary>
           <ol>
             <li
-              v-for="(item, index) in regulation.history"
+              v-for="(item, index) in statute.history"
               :key="index"
               v-html="item"
             ></li>

@@ -1,25 +1,27 @@
 /**
  * 將法規資料格式化為 HTML 字串
  */
-export function generateHtmlSource(reg: any): string {
-  if (!reg) return ''
+export function generateHtmlSource(statute: any): string {
+  if (!statute) return ''
 
   const abandonedSpan =
-    reg.status === 'abandoned' ? ' <span style="color: red;">(廢止)</span>' : ''
+    statute.status === 'abandoned'
+      ? ' <span style="color: red;">(廢止)</span>'
+      : ''
 
   let historyItems = ''
-  if (Array.isArray(reg.history)) {
-    historyItems = reg.history
+  if (Array.isArray(statute.history)) {
+    historyItems = statute.history
       .map((item: string) => `  <li>${item}</li>`)
       .join('\n')
   }
 
   return `
-<p><span style="font-weight: bold;">法規名稱：</span>${reg.titleFull}${abandonedSpan}</p>
-<p><span style="font-weight: bold;">${reg.modifiedType}日期：</span>${reg.modifiedDate}</p>
+<p><span style="font-weight: bold;">法規名稱：</span>${statute.titleFull}${abandonedSpan}</p>
+<p><span style="font-weight: bold;">${statute.modifiedType}日期：</span>${statute.modifiedDate}</p>
 <h2 class="wp-block-heading">全文</h2>
 <div>
-${reg.fullText || ''}
+${statute.fullText || ''}
 </div>
 <h2 class="wp-block-heading">沿革</h2>
 <ol>
@@ -31,8 +33,8 @@ ${historyItems}
 /**
  * 產生 HTML 並複製到剪貼簿
  */
-export async function copyHtmlSourceToClipboard(reg: any) {
-  const htmlSource = generateHtmlSource(reg)
+export async function copyHtmlSourceToClipboard(statute: any) {
+  const htmlSource = generateHtmlSource(statute)
   if (!htmlSource) return
 
   try {

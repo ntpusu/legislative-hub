@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver'
 
 // 定義與原本相同的介面
-export interface ParsedRegulationData {
+export interface ParsedStatuteData {
   titleFull: string
   titleShort: string
   bodyLines: string[]
@@ -62,7 +62,7 @@ function isChapter(text: string): boolean {
   return /^(第.+章)/.test(text.trim())
 }
 
-function createDocx(data: ParsedRegulationData, docxLib: any) {
+function createDocx(data: ParsedStatuteData, docxLib: any) {
   const {
     Document,
     Paragraph,
@@ -183,7 +183,7 @@ function createDocx(data: ParsedRegulationData, docxLib: any) {
   })
 
   return new Document({
-    creator: 'NTPU學生議會法規系統',
+    creator: 'NTPU北大學生會自治法規系統',
     title: `${data.titleShort}修正提案附件`,
     styles: {
       default: { document: { run: defaultFont } },
@@ -299,13 +299,13 @@ function createDocx(data: ParsedRegulationData, docxLib: any) {
 
 /**
  * 匯出並下載 Word 文件
- * @param rawRegulation 透過 API 獲取的原始法規資料
+ * @param rawStatute 透過 API 獲取的原始法規資料
  */
-export async function generateAndDownloadDocx(rawRegulation: any) {
-  const parsedData: ParsedRegulationData = {
-    titleFull: rawRegulation.titleFull,
-    titleShort: rawRegulation.titleShort,
-    bodyLines: parseHtmlToBodyLines(rawRegulation.fullText)
+export async function generateAndDownloadDocx(rawStatute: any) {
+  const parsedData: ParsedStatuteData = {
+    titleFull: rawStatute.titleFull,
+    titleShort: rawStatute.titleShort,
+    bodyLines: parseHtmlToBodyLines(rawStatute.fullText)
   }
 
   const docxLib = await import('docx')
@@ -315,7 +315,7 @@ export async function generateAndDownloadDocx(rawRegulation: any) {
   const blob = await Packer.toBlob(doc)
 
   const rocDate = getRocDateString()
-  const filename = `${parsedData.titleShort || '法規'}修正案_${rocDate}.docx`
+  const filename = `${parsedData.titleShort || '自治法規'}修正案_${rocDate}.docx`
 
   saveAs(blob, filename)
 }

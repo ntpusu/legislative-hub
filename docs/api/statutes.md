@@ -1,8 +1,10 @@
-# 法規系統 API 文件
+# 自治法規系統 API 文件
 
-## regulation/list
+> **statutes** 為自治法規之英譯，包含本會組織章程與自治法令（組織章程第 61 條參照）。本專案原本使用的 `regulation`／`bylaw` 已在路徑與程式碼中統一為 `statutes`；本專案不對外提供 API，此變動不影響任何外部使用者。
 
-路徑： `https://cloud.ntpusu.org/api/regulation/list` ，無請求參數
+## statutes/list
+
+路徑： `https://cloud.ntpusu.org/api/statutes/list` ，無請求參數
 
 回應格式：法規清單 array，各元素為一個 array 代表法規，第一個子元素是法規代碼（四碼正整數），第二個子元素是法規簡稱（含有非 ASCII 字元的字串），例如
 
@@ -24,9 +26,9 @@
 - `5`：臺北校區
 - `6`：總會
 
-## regulation/single/:id
+## statutes/single/:id
 
-呼叫範例： `https://cloud.ntpusu.org/api/regulation/single/6001`
+呼叫範例： `https://cloud.ntpusu.org/api/statutes/single/6001`
 
 回傳範例：
 

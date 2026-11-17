@@ -7,7 +7,7 @@ export const PERMISSIONS = [
   'drafting', // 議事文件草擬（議程、會議紀錄）
   'sync:bills', // 手動同步議案
   'sync:committee-reports', // 手動同步委員會建議事項
-  'sync:bylaws', // 手動同步法規
+  'sync:statutes', // 手動同步自治法規
   'sync:representatives' // 手動同步學生代表名冊
 ] as const
 

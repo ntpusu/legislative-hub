@@ -1,4 +1,5 @@
-// server/api/regulation/single/[id].js
+// server/api/statutes/single/[id].js
+// statutes 為自治法規之英譯，包含本會組織章程與自治法令（組織章程第 61 條參照）。
 
 import matter from 'gray-matter'
 
@@ -19,7 +20,7 @@ function formatDate(dateString) {
 // the div class name "jfpc" means "just-for-paragraph-count"
 function formatToHtml(lawContent) {
   const lines = lawContent.split('\n')
-  let outputHtml = '<div class="regulation-content">\n'
+  let outputHtml = '<div class="statute-content">\n'
   let inTiao = false
 
   lines.forEach((line) => {
@@ -99,7 +100,7 @@ function formatToHtml(lawContent) {
     outputHtml += '\t</div>\n\t<!--end single article-->\n'
   }
 
-  outputHtml += '</div> <!-- end regulation content --> \n'
+  outputHtml += '</div> <!-- end statute content --> \n'
 
   return outputHtml
 }
@@ -117,7 +118,7 @@ export default defineEventHandler(async (event) => {
     const res = await fetch(fileUrl)
     if (!res.ok)
       throw new Error(
-        `API /regulation/single/id 嘗試讀取 NTPU Legislative Database 公開的法規檔案，但發生 ${res.status} 狀況。`
+        `API /statutes/single/:id 嘗試讀取 NTPU Legislative Database 公開的法規檔案，但發生 ${res.status} 狀況。`
       )
     raw = await res.text()
 

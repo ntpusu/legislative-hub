@@ -69,7 +69,7 @@ const PERMISSION_ROLES: Record<Permission, readonly Role[]> = {
   drafting: ['sx-congress'],
   'sync:bills': ['sx-congress'],
   'sync:committee-reports': ['sx-congress'],
-  'sync:bylaws': ALL_ROLES,
+  'sync:statutes': ALL_ROLES,
   'sync:representatives': ALL_ROLES
 }
 

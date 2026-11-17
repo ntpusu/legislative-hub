@@ -2,7 +2,7 @@
 
 const ALLOWED_TYPES = [
   'bills',
-  'bylaws',
+  'statutes',
   'committee-reports',
   'representatives'
 ] as const

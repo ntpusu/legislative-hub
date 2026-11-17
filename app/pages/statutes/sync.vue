@@ -1,11 +1,11 @@
-<!-- app/pages/bylaws/sync.vue -->
+<!-- app/pages/statutes/sync.vue -->
 <script setup lang="ts">
 const config = useRuntimeConfig()
-const { repo, workflowNameBylaws } = config.public.legiDataSource
-definePageMeta({ layout: 'congress', permission: 'sync:bylaws' })
+const { repo, workflowNameStatutes } = config.public.legiDataSource
+definePageMeta({ layout: 'congress', permission: 'sync:statutes' })
 
 useHead({
-  title: '同步法規'
+  title: '同步自治法規'
 })
 
 const status = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -15,7 +15,7 @@ async function trigger() {
   status.value = 'loading'
   errorMsg.value = ''
   try {
-    await $fetch('/api/trigger/bylaws', { method: 'POST' })
+    await $fetch('/api/trigger/statutes', { method: 'POST' })
     status.value = 'success'
   } catch (e: any) {
     status.value = 'error'
@@ -26,7 +26,7 @@ async function trigger() {
 
 <template>
   <main>
-    <h1>法規同步</h1>
+    <h1>自治法規同步</h1>
     <p>前次同步時間（簡稱清單更新時間）：【功能待補】。</p>
     <p>
       系統每日凌晨2時，從 Google Drive 同步到 {{ config.shortName }} (這裡)
@@ -45,7 +45,7 @@ async function trigger() {
       ✅ 已成功觸發，工作流正在執行中（成功觸發不代表 workflow
       已執行完畢，甚至未必執行成功，執行情形請到
       <a
-        :href="`https://github.com/${repo}/actions/workflows/${workflowNameBylaws}`"
+        :href="`https://github.com/${repo}/actions/workflows/${workflowNameStatutes}`"
         target="_blank"
         >GitHub Actions</a
       >

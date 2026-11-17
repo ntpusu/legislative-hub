@@ -1,8 +1,8 @@
 import { unref, type Ref } from 'vue'
 import { useFetch } from '#app'
 
-// 定義法規資料的介面 (Interface)，確保 TypeScript 能正確提示
-export interface RegulationData {
+// 定義自治法規資料的介面 (Interface)，確保 TypeScript 能正確提示
+export interface StatuteData {
   titleFull: string
   titleShort: string
   modifiedType: string
@@ -12,16 +12,16 @@ export interface RegulationData {
   fullText: string
 }
 
-export const useRegulation = (id: string | Ref<string>) => {
+export const useStatute = (id: string | Ref<string>) => {
   // 使用 useFetch 進行 SSR 資料獲取
-  return useFetch<RegulationData>(`/api/regulation/single/${unref(id)}`, {
+  return useFetch<StatuteData>(`/api/statutes/single/${unref(id)}`, {
     // 設定唯一的 key，確保不同 ID 切換時會重新觸發
-    key: `regulation-${unref(id)}`,
+    key: `statute-${unref(id)}`,
 
     // 伺服器端發生錯誤時的處理
     onResponseError({ response }: { response: any }) {
       console.error(
-        `[Regulation API Error] Status: ${response.status}`,
+        `[Statute API Error] Status: ${response.status}`,
         response._data
       )
     },

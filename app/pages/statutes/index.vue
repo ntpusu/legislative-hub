@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { generateAndDownloadDocx } from '../../../utils/bylawsAmendTableGenerator'
-import { copyHtmlSourceToClipboard } from '../../../utils/bylawsHtmlGenerator'
+import { generateAndDownloadDocx } from '../../../utils/statutesAmendTableGenerator'
+import { copyHtmlSourceToClipboard } from '../../../utils/statutesHtmlGenerator'
 
 definePageMeta({
   layout: 'congress'
 })
 
 useHead({
-  title: '法規系統'
+  title: '自治法規系統'
 })
 
 // -- 狀態管理 --
@@ -25,10 +25,9 @@ const isCopyingHtml = ref(false)
 type LawTuple = [string | number, string]
 
 // 2. 為 useFetch 加上泛型 <LawTuple[]>
-const { data: lawListResponse } = await useFetch<LawTuple[]>(
-  '/api/regulation/list'
-)
-const lawList = computed(() => lawListResponse.value || [])
+const { data: statuteListResponse } =
+  await useFetch<LawTuple[]>('/api/statutes/list')
+const statuteList = computed(() => statuteListResponse.value || [])
 
 const categories = [
   { prefix: '1', title: '三峽學生會', filterKey: 'sanxia' },
@@ -51,7 +50,7 @@ const categorizedLaws = computed(() => {
     '6': []
   }
 
-  lawList.value.forEach((item) => {
+  statuteList.value.forEach((item) => {
     // 加上簡單防呆，確保 item 真的存在
     if (!item) return
 
@@ -95,7 +94,7 @@ const handleDownloadDocx = async () => {
   isGeneratingDocx.value = true
   try {
     const response: any = await $fetch(
-      `/api/regulation/single/${currentLaw.value.id}`
+      `/api/statutes/single/${currentLaw.value.id}`
     )
 
     // 印出 API 原始回傳內容供除錯參考
@@ -103,7 +102,7 @@ const handleDownloadDocx = async () => {
 
     // 嘗試自動解開常見的 API JSON 包裝 (例如 { data: { titleFull: "..." } })
     const regData =
-      response.data || response.regulation || response.body || response
+      response.data || response.statute || response.body || response
 
     // 防呆：確認解包後的資料真的有需要的欄位
     if (!regData || !regData.titleFull) {
@@ -128,13 +127,13 @@ const handleCopyHtml = async () => {
   isCopyingHtml.value = true
   try {
     const response: any = await $fetch(
-      `/api/regulation/single/${currentLaw.value.id}`
+      `/api/statutes/single/${currentLaw.value.id}`
     )
 
     console.log('HTML - API 原始回傳內容:', response)
 
     const regData =
-      response.data || response.regulation || response.body || response
+      response.data || response.statute || response.body || response
 
     if (!regData || !regData.titleFull) {
       throw new Error(
@@ -158,9 +157,9 @@ const handleCopyHtml = async () => {
   <main>
     <header>
       <hgroup>
-        <h1>法規系統</h1>
+        <h1>自治法規系統</h1>
         <p>
-          以下依照主管部門列出法規。點擊法規名稱後，可以進一步操作（列印公告版、下載空白對照表
+          以下依照主管部門列出自治法規（statutes）。點擊法規名稱後，可以進一步操作（列印公告版、下載空白對照表
           Word 檔等）。
         </p>
       </hgroup>
@@ -219,7 +218,7 @@ const handleCopyHtml = async () => {
 
         <div class="grid">
           <NuxtLink
-            :to="`/bylaws/${currentLaw?.id}/print`"
+            :to="`/statutes/${currentLaw?.id}/print`"
             target="_blank"
             role="button"
             class="outline"
@@ -239,7 +238,7 @@ const handleCopyHtml = async () => {
 
         <div class="grid">
           <NuxtLink
-            :to="`/bylaws/${currentLaw?.id}/preview`"
+            :to="`/statutes/${currentLaw?.id}/preview`"
             target="_blank"
             role="button"
             class="secondary outline"

@@ -11,34 +11,33 @@
     </div>
 
     <!-- 2. 資料載入成功後顯示內容 -->
-    <div v-else-if="regulation">
+    <div v-else-if="statute">
       <div class="print-header">
         <p class="print-timestamp">{{ printTimestamp }}</p>
         <button @click="doPrint" class="print-button">列印本頁</button>
       </div>
 
-      <h1 class="regulation-title-print">
-        {{ regulation.titleFull }}
-        <span v-if="regulation.status === 'abandoned'" style="color: red"
+      <h1 class="statute-title-print">
+        {{ statute.titleFull }}
+        <span v-if="statute.status === 'abandoned'" style="color: red"
           >(廢止)</span
         >
       </h1>
 
-      <p class="regulation-date-print">
-        {{ regulation.modifiedDate
-        }}{{ regulation.modifiedType }}版本<br /><span
+      <p class="statute-date-print">
+        {{ statute.modifiedDate }}{{ statute.modifiedType }}版本<br /><span
           style="font-size: smaller"
           >（完整修正歷程詳條文末）</span
         >
       </p>
 
-      <div v-if="regulation.fullText" v-html="regulation.fullText"></div>
+      <div v-if="statute.fullText" v-html="statute.fullText"></div>
 
       <hr class="history-separator" />
       <p class="history-title">沿革</p>
       <ol>
         <li
-          v-for="(item, index) in regulation.history"
+          v-for="(item, index) in statute.history"
           :key="index"
           v-html="item"
         ></li>
@@ -48,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRegulation, type RegulationData } from '~/composables/useRegulation'
+import { useStatute, type StatuteData } from '~/composables/useStatute'
 import { siteConfig } from '~~/config/site.config'
 
 definePageMeta({
@@ -60,10 +59,10 @@ const id = route.params.id as string // 強制轉型 string 避免型別錯誤
 const printTimestamp = ref('')
 
 // --- 改用 Composable (支援 SSR) ---
-const { data: rawData, pending, error } = await useRegulation(id)
-const regulation = computed(() => rawData.value as RegulationData | null)
+const { data: rawData, pending, error } = await useStatute(id)
+const statute = computed(() => rawData.value as StatuteData | null)
 
-const regulationSystemName = siteConfig.regulationSystemName
+const statuteSystemName = siteConfig.statuteSystemName
 
 // 用於觸發瀏覽器列印 (僅在 Client 端執行)
 function doPrint() {
@@ -78,15 +77,15 @@ onMounted(() => {
   const d = now.getDate().toString().padStart(2, '0')
   const h = now.getHours().toString().padStart(2, '0')
   const min = now.getMinutes().toString().padStart(2, '0')
-  printTimestamp.value = `${regulationSystemName} ${y}/${m}/${d} ${h}:${min} 列印`
+  printTimestamp.value = `${statuteSystemName} ${y}/${m}/${d} ${h}:${min} 列印`
 })
 
 useHead({
   // 使用 computed getter 確保 title 隨資料更新
   title: () =>
-    regulation.value
-      ? `列印「${regulation.value.titleShort}」 - ${regulationSystemName}`
-      : `載入中 - ${regulationSystemName}`
+    statute.value
+      ? `列印「${statute.value.titleShort}」 - ${statuteSystemName}`
+      : `載入中 - ${statuteSystemName}`
 })
 </script>
 
@@ -176,7 +175,7 @@ useHead({
   cursor: pointer;
 }
 
-.regulation-title-print {
+.statute-title-print {
   text-align: center;
   font-weight: bold;
   font-size: 16pt;
@@ -186,7 +185,7 @@ useHead({
 }
 
 /* 需求 3: 日期置右 */
-.regulation-date-print {
+.statute-date-print {
   text-align: right;
   margin-top: 1rem;
   margin-bottom: 2rem;

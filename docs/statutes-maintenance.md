@@ -1,10 +1,12 @@
-# 法規系統教學
+# 自治法規系統教學
 
 最後更新：2026-05-14 by [Andy312432](https://github.com/Andy312432)
 
+> **statutes** 為自治法規之英譯，包含本會組織章程與自治法令（組織章程第 61 條參照）。本文件的「法規」即指 statutes；程式與 API 路徑也已統一使用 `statutes`，不再出現 `regulation`／`bylaw`。
+
 ## 系統整體運作架構
 
-現行法規系統由 Google Drive 共編資料夾 + [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) + 本專案 (GovCloud) + [Sync Plugin](https://github.com/ntpusu/regulation-sync-plugin) + WordPress 會網等五個系統組成。整體運作方式可參閱 [README](../README.md) 文件。
+現行自治法規系統由 Google Drive 共編資料夾 + [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) + 本專案 (GovCloud) + [Sync Plugin](https://github.com/ntpusu/regulation-sync-plugin) + WordPress 會網等五個系統組成。整體運作方式可參閱 [README](../README.md) 文件。
 
 ## 壹、法規文字檔維護：完全透過 Google Drive 操作
 
@@ -14,7 +16,7 @@
 
 在資料夾中，會有多個貴機關主管之法規文字檔（以下亦稱法規檔）。
 
-法規檔名使用特定的四位數字。基本上，第一位數字代表機關，第二位數字代表法規粗分類，第三、四位數為流水號（但第二至四位數，只要不重複，貴機關可自行編列）。 **一部法規只會有一個 ID，且不可重複** ，如忘記編號對應到哪部法規，可[點此查看](https://raw.githubusercontent.com/ntpusu/legislative-data/refs/heads/main/data/bylaw-list.json)（按 Ctrl+F 可快速搜尋），或登入 GovCloud 後，點選左側選單「法規系統」再點「取得各式檔案」，該頁面就會列出。
+法規檔名使用特定的四位數字。基本上，第一位數字代表機關，第二位數字代表法規粗分類，第三、四位數為流水號（但第二至四位數，只要不重複，貴機關可自行編列）。 **一部法規只會有一個 ID，且不可重複** ，如忘記編號對應到哪部法規，可[點此查看](https://raw.githubusercontent.com/ntpusu/legislative-data/refs/heads/main/data/bylaw-list.json)（按 Ctrl+F 可快速搜尋），或登入 GovCloud 後，點選左側選單「自治法規系統」再點「取得各式檔案」，該頁面就會列出。
 
 法規使用 TXT 格式儲存，請確保副檔名是 `.txt` 。您可以使用 Windows 系統內建之「記事本」軟體來開啟。
 
@@ -84,7 +86,7 @@ history:
 
 ## 貳、同步法規到 Legislative Database
 
-簡單來說，儘管法規系統基本上是在本專案 (GovCloud) 操作，但本系統的資料是儲存在 [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) 專案。
+簡單來說，儘管自治法規系統基本上是在本專案 (GovCloud) 操作，但本系統的資料是儲存在 [NTPU Legislative Database](https://github.com/ntpusu/legislative-data) 專案。
 
 程式約每天凌晨 2 至 4 時間，會自動從 Google Drive 同步法規檔案到該專案儲存庫，順便當作備份。因此，請避免在該段時間內，於 Google Drive 操作法規維護。
 
@@ -92,24 +94,24 @@ history:
 
 首先，GovCloud 專案需要以各單位官方 Google 帳號登入，如果有換帳號請務必通知維護人員。
 
-登入後，請點選左側選單「法規系統」再點「同步法規」，進入後點選中間藍色按鈕。
+登入後，請點選左側選單「自治法規系統」再點「同步法規」，進入後點選中間藍色按鈕。
 
 如果沒問題，系統應該會顯示一行帶有打勾 emoji 的文字說明，約 1 到 3 分鐘後，即同步完成（該則文字說明有個「執行情形請到 GitHub Actions 頁面查看」連結，點選可查看進度）。
 
 ## 參、在 GovCloud 取得各式法規檔案
 
-法規資料同步後，使用者可在本 GovCloud 專案：
+法規資料同步後，使用者可在本 GovCloud 專案（自治法規系統）：
 
 - 預覽會網上專門為了瀏覽法規設計的樣式（下稱會網樣式）、
 - 下載修正條文對照表空白表格 DOCX 檔、
 - 列印符合《中央法規標準法》的公告版 PDF 檔，或
 - 複製會網樣式原始碼（如果在步驟「肆、」，想在會網採取手動嵌入）。
 
-操作路徑：點選左側選單「法規系統」再點「取得各式檔案」，該頁面中點選您要的法規。
+操作路徑：點選左側選單「自治法規系統」再點「取得各式檔案」，該頁面中點選您要的法規。
 
 ## 肆、讓法規顯示在會網法規資料庫上
 
-法規系統是我們內部維護用的。若要呈現到會網法規資料庫，則需要另行處理。目前我們提供兩種方式，第一種是自動化的，一部法規只需要設定一次，未來所有修法均由系統抓取資料到會網上；第二種是每次修正時需手動操作。
+自治法規系統是我們內部維護用的。若要呈現到會網法規資料庫，則需要另行處理。目前我們提供兩種方式，第一種是自動化的，一部法規只需要設定一次，未來所有修法均由系統抓取資料到會網上；第二種是每次修正時需手動操作。
 
 ### 方式一：設定 Sync
 
@@ -123,7 +125,7 @@ history:
 - 步驟四：此時，您可以在［已對應內容］找到已經對應之法規。請在您要同步的那個法規的那一列中，將 shortcode 欄的文字複製起來。
 - 步驟五：請回到步驟一新增的文章，在裡面插入一個短代碼區塊，並將前一步驟複製的 shortcode 貼上去。
 
-若正確設定，法規應會在每天固定同步。包含 Metadata 的日期等欄位，只要法規系統有處理，會網 Sync 功能均會自動辦理。
+若正確設定，法規應會在每天固定同步。包含 Metadata 的日期等欄位，只要自治法規系統有處理，會網 Sync 功能均會自動辦理。
 
 ### 方式二：手動嵌入原始碼
 
