@@ -18,8 +18,47 @@ const colorMode = useColorMode()
 const router = useRouter()
 const currentYear = new Date().getFullYear()
 
-const isMobileMenuOpen = ref(false)
 const route = useRoute()
+
+// ----------------------------------------------------------------
+// 行動版側欄（螢幕寬度 < 992px 時為抽屜式）
+// ----------------------------------------------------------------
+const isMobileMenuOpen = ref(false)
+const menuButtonRef = ref<HTMLButtonElement | null>(null)
+const closeButtonRef = ref<HTMLButtonElement | null>(null)
+
+/** 開啟側欄，並將焦點移到側欄內的關閉按鈕 */
+const openMobileMenu = async () => {
+  isMobileMenuOpen.value = true
+  await nextTick()
+  closeButtonRef.value?.focus()
+}
+
+/**
+ * 關閉側欄。預設將焦點還給選單按鈕；
+ * 若是點選連結換頁而關閉，焦點交由換頁處理，不必還原。
+ */
+const closeMobileMenu = async (restoreFocus = true) => {
+  if (!isMobileMenuOpen.value) return
+  isMobileMenuOpen.value = false
+  if (!restoreFocus) return
+  // 須等 DOM 更新、頁首解除 inert 後才能聚焦
+  await nextTick()
+  menuButtonRef.value?.focus()
+}
+
+// 視窗放大到桌面版寬度時，抽屜狀態已無意義，一併關閉以解除 inert
+let desktopQuery: MediaQueryList | null = null
+const onDesktopQueryChange = (e: MediaQueryListEvent) => {
+  if (e.matches) closeMobileMenu(false)
+}
+onMounted(() => {
+  desktopQuery = window.matchMedia('(min-width: 992px)')
+  desktopQuery.addEventListener('change', onDesktopQueryChange)
+})
+onUnmounted(() => {
+  desktopQuery?.removeEventListener('change', onDesktopQueryChange)
+})
 
 /** 側欄中包含目前頁面的分類預設展開，讓使用者知道自己位於何處（WCAG 2.4.8） */
 const isCurrentSection = (item: { children: { href: string }[] }) =>
@@ -121,12 +160,15 @@ const toggleTheme = () => {
     </dialog>
 
     <!-- ── 手機版頂部 Header ───────────────────────────────── -->
-    <header class="mobile-header container-fluid">
+    <header class="mobile-header container-fluid" :inert="isMobileMenuOpen">
       <div class="mobile-bar">
         <button
+          ref="menuButtonRef"
           class="outline contrast"
           aria-label="開啟選單"
-          @click="isMobileMenuOpen = true"
+          aria-controls="site-sidebar"
+          :aria-expanded="isMobileMenuOpen"
+          @click="openMobileMenu"
         >
           <Menu :size="20" />
         </button>
@@ -135,16 +177,30 @@ const toggleTheme = () => {
     </header>
 
     <div class="layout-wrapper container-fluid">
-      <aside :class="{ open: isMobileMenuOpen }" class="sidebar">
+      <!-- 側欄開啟時的半透明遮罩，點選即關閉（僅行動版顯示） -->
+      <div
+        v-if="isMobileMenuOpen"
+        class="sidebar-backdrop"
+        aria-hidden="true"
+        @click="closeMobileMenu()"
+      ></div>
+
+      <aside
+        id="site-sidebar"
+        :class="{ open: isMobileMenuOpen }"
+        class="sidebar"
+        @keydown.esc="closeMobileMenu()"
+      >
         <nav aria-label="主選單">
           <ul>
             <li class="sidebar-header">
               <div class="sidebar-title">
                 <strong class="sidebar-brand">{{ config.shortName }}</strong>
                 <button
+                  ref="closeButtonRef"
                   class="sidebar-close outline secondary"
                   aria-label="關閉選單"
-                  @click="isMobileMenuOpen = false"
+                  @click="closeMobileMenu()"
                 >
                   <X :size="16" />
                 </button>
@@ -187,11 +243,9 @@ const toggleTheme = () => {
                 </summary>
                 <ul>
                   <li v-for="sub in item.children" :key="sub.name">
-                    <NuxtLink
-                      :to="sub.href"
-                      @click="isMobileMenuOpen = false"
-                      >{{ sub.name }}</NuxtLink
-                    >
+                    <NuxtLink :to="sub.href" @click="closeMobileMenu(false)">{{
+                      sub.name
+                    }}</NuxtLink>
                   </li>
                 </ul>
               </details>
@@ -232,7 +286,8 @@ const toggleTheme = () => {
         </nav>
       </aside>
 
-      <div class="content">
+      <!-- 側欄開啟時，背後的內容不可操作，避免焦點落在被遮住的元素上 -->
+      <div class="content" :inert="isMobileMenuOpen">
         <main id="main-content" tabindex="-1">
           <slot />
         </main>
@@ -360,15 +415,35 @@ const toggleTheme = () => {
 
 /* ── 側邊欄 RWD ─────────────────────────────────── */
 @media (max-width: 991.98px) {
+  /*
+   * 關閉時除了移出畫面，也設為 visibility: hidden，
+   * 讓鍵盤與螢幕報讀軟體無法進入看不見的側欄；
+   * visibility 延後到移出動畫結束後才切換。
+   */
   .sidebar {
     position: fixed;
     left: 0;
     transform: translateX(-100%);
+    visibility: hidden;
+    transition:
+      transform 0.3s ease,
+      visibility 0s linear 0.3s;
   }
 
   .sidebar.open {
     transform: translateX(0);
+    visibility: visible;
+    transition:
+      transform 0.3s ease,
+      visibility 0s;
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: var(--pico-modal-overlay-background-color);
   }
 
   .content {
