@@ -1,16 +1,10 @@
 import { unref, type Ref } from 'vue'
 import { useFetch } from '#app'
 
-// 定義自治法規資料的介面 (Interface)，確保 TypeScript 能正確提示
-export interface StatuteData {
-  titleFull: string
-  titleShort: string
-  modifiedType: string
-  modifiedDate: string
-  status: string // e.g., 'abandoned'
-  history: string[]
-  fullText: string
-}
+import type { StatuteView } from '~~/shared/utils/statuteSource'
+
+// 自治法規資料的型別，與 API /api/statutes/single/:id 的回應一致
+export type StatuteData = StatuteView
 
 export const useStatute = (id: string | Ref<string>) => {
   // 使用 useFetch 進行 SSR 資料獲取
