@@ -1,7 +1,7 @@
 /* app\assets\css\main.css */
 
 /* Import blades as CSS framework */
-@import '@anyblades/blades';
+@import '@sveti/blades';
 
 /*
  * 品牌色階（以 #FBBE01 為 400）
